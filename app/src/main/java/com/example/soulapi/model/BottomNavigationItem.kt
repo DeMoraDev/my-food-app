@@ -2,7 +2,7 @@ package com.example.soulapi.model
 
 import androidx.compose.ui.graphics.vector.ImageVector
 
-data class BottomNavigationItem (
+data class BottomNavigationItem(
     val title: String,
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,
