@@ -1,37 +1,30 @@
 package com.example.soulapi.views
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.soulapi.components.MainTopBar
+import com.example.soulapi.components.MainScaffold
+import com.example.soulapi.viewModel.SettingsViewModel
+import com.example.soulapi.viewModel.SoulViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SettingsView(navController: NavController){
-    Scaffold(
-        topBar = {
-            MainTopBar(title = "Settings") {
-            }
-        },
+fun SettingsView(soulViewModel: SoulViewModel, navController: NavController) {
+    val viewModel: SettingsViewModel = hiltViewModel()
 
-        ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
-            ContentSettingsView()
-        }
+    MainScaffold(
+        soulViewModel = soulViewModel,
+        viewModel = viewModel,
+        navController = navController
+    ) { paddingValues ->
+        ContentSettingsView(viewModel, paddingValues)
     }
 }
 
 @Composable
-fun ContentSettingsView(){
+fun ContentSettingsView(viewModel: SettingsViewModel, paddingValues: PaddingValues) {
     Text(text = "SettingsView")
 }

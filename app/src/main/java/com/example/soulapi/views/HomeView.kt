@@ -21,33 +21,16 @@ import androidx.navigation.NavController
 import com.example.soulapi.components.CardBurger
 import com.example.soulapi.components.FoodCategories
 import com.example.soulapi.components.MainBottomBar
+import com.example.soulapi.components.MainScaffold
 import com.example.soulapi.components.MainTopBar
 import com.example.soulapi.viewModel.SoulViewModel
 
 @Composable
 fun HomeView(viewModel: SoulViewModel, navController: NavController) {
-    LaunchedEffect(Unit) {
-        viewModel.fetchBurgers()
-    }
-
-    Scaffold(
-        topBar = {
-            MainTopBar(title = "SOUL COFFEE BEER") {
-
-            }
-        },
-        bottomBar = {
-            MainBottomBar(viewModel.selectedItemIndex) { index ->
-                viewModel.onNavigationItemSelected(index)
-                when (index) {
-                    0 -> navController.navigate("HomeView")
-                    1 -> navController.navigate("FavoriteView")
-                    2 -> navController.navigate("CartView")
-                    3 -> navController.navigate("SettingsView")
-
-                }
-            }
-        }
+    MainScaffold(
+        soulViewModel = viewModel,
+        viewModel = viewModel,
+        navController = navController
     ) { paddingValues ->
         Column(
             modifier = Modifier

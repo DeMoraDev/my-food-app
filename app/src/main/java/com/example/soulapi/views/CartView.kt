@@ -1,37 +1,30 @@
 package com.example.soulapi.views
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.soulapi.components.MainTopBar
+import com.example.soulapi.components.MainScaffold
+import com.example.soulapi.viewModel.CartViewModel
+import com.example.soulapi.viewModel.SoulViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun CartView(navController: NavController){
-    Scaffold(
-        topBar = {
-            MainTopBar(title = "Cart") {
-            }
-        },
+fun CartView(soulViewModel: SoulViewModel, navController: NavController) {
+    val viewModel: CartViewModel = hiltViewModel()
 
-        ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
-            ContentCartView()
-        }
+    MainScaffold(
+        soulViewModel = soulViewModel,
+        viewModel = viewModel,
+        navController = navController
+    ) { paddingValues ->
+        ContentCartView(viewModel, paddingValues)
     }
 }
 
 @Composable
-fun ContentCartView(){
+fun ContentCartView(viewModel: CartViewModel, paddingValues: PaddingValues) {
     Text(text = "CartView")
 }

@@ -62,42 +62,11 @@ class SoulViewModel @Inject constructor(private val repository: SoulRepository) 
 
     }
 
-    val items = listOf(
-        BottomNavigationItem(
-            title = "Home",
-            selectedIcon = Icons.Filled.Home,
-            unselectedIcon = Icons.Outlined.Home,
-            hasNews = false,
-        ),
-        BottomNavigationItem(
-            title = "Favorites",
-            selectedIcon = Icons.Filled.Favorite,
-            unselectedIcon = Icons.Outlined.Favorite,
-            hasNews = false,
-            badgeCount = 7
-        ),
-        BottomNavigationItem(
-            title = "Cart",
-            selectedIcon = Icons.Filled.ShoppingCart,
-            unselectedIcon = Icons.Outlined.ShoppingCart,
-            hasNews = false,
-        ),
-        BottomNavigationItem(
-            title = "Settings",
-            selectedIcon = Icons.Filled.Settings,
-            unselectedIcon = Icons.Outlined.Settings,
-            hasNews = true,
-        ),
-    )
-
     var selectedItemIndex by mutableStateOf(0)
 
     fun onNavigationItemSelected(index: Int) {
         selectedItemIndex = index
     }
-
-
-
 
 
     fun getBurgerById(id: Int) {
