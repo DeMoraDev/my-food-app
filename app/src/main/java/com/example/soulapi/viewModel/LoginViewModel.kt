@@ -69,34 +69,25 @@ class LoginViewModel @Inject constructor(private val repository: SoulRepository)
             }
         }
     }
-}
-fun register() {
-    val request = AuthRequest(username = "newuser", password = "newpassword")
-    // viewModelScope.launch {
-    try {
-        // Make the login API call
-        //  val response = repository.register(request)
-        // val a = response
-        // Check the response
-        /* if (response.isSuccessful) {
-            val authResponse = response.body()
-            if (authResponse != null && authResponse.error == null) {
-                println("Login successful: ${authResponse.message}")
-                if (authResponse.admin == true) {
-                    println("User is an admin.")
+
+    fun register(username: String, password: String) {
+        val request = AuthRequest(username = username, password = password)
+
+        viewModelScope.launch {
+            try {
+                val authResponse = repository.register(request)
+
+                if (authResponse != null && authResponse.error == null) {
+                    println("Registration successful: ${authResponse.message}")
+
                 } else {
-                    println("User is a regular user.")
+                    val errorMessage = authResponse?.error ?: "Unknown error occurred"
+                    println("Registration error: $errorMessage")
                 }
-            } else {
-                println("Login error: ${authResponse?.error}")
+            } catch (e: Exception) {
+                println("Network error: ${e.message}")
             }
-        } else {
-            println("Request failed: ${response.code()}")
         }
-
-         */
-    } catch (e: Exception) {
-        println("Network error: ${e.message}")
     }
-
 }
+

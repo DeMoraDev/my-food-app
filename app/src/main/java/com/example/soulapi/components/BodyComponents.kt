@@ -19,11 +19,14 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -35,6 +38,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,6 +59,7 @@ import com.example.soulapi.viewModel.SoulViewModel
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.example.soulapi.R
+import com.example.soulapi.model.CartCardModel
 import com.example.soulapi.util.Utils
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -92,15 +99,15 @@ fun MainTopBar(title: String, showBackButton: Boolean = false, onClickBackButton
 @Composable
 fun CardBurger(burger: SoulModel, onClick: () -> Unit) {
     Card(
-        shape = RoundedCornerShape(10.dp),
+        shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .padding(10.dp)
-            .shadow(8.dp)
+            //.shadow(8.dp)
             .clickable { onClick() }
     ) {
         Column(
             modifier = Modifier
-                .background(Color.Black)
+                .background(Color.White)
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -113,7 +120,7 @@ fun CardBurger(burger: SoulModel, onClick: () -> Unit) {
                 textAlign = TextAlign.Center,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.ExtraBold,
-                color = Color.Blue,
+                color = Color.Black,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
@@ -125,7 +132,7 @@ fun CardBurger(burger: SoulModel, onClick: () -> Unit) {
                 fontSize = 20.sp,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
-                color = Color.White,
+                color = Color.Black,
                 modifier = Modifier.padding(bottom = 8.dp, start = 8.dp, end = 8.dp)
             )
         }
@@ -202,7 +209,7 @@ fun CategoryCard(
             .size(100.dp)
             .clickable { onClick() },
 
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(20.dp),
     ) {
         Column(
             modifier = Modifier
@@ -223,6 +230,99 @@ fun CategoryCard(
                 color = Color.Black,
                 fontWeight = FontWeight.Bold,
             )
+        }
+    }
+}
+
+@Composable
+fun CartItemCard(cartItems: CartCardModel) {
+
+    val quantity = remember { mutableStateOf(cartItems.initialQuantity) }
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(8.dp)
+            ) {
+                Text(
+                    text = cartItems.productName,
+                    fontSize = 18.sp,
+                    color = Color.Black
+                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconButton(onClick = {
+                        if (quantity.value > 1) {
+                            quantity.value -= 1
+                            cartItems.onQuantityChanged(quantity.value)
+                        }
+                    }) {
+                        Icon(
+                            painter = painterResource(id = android.R.drawable.btn_minus),
+                            contentDescription = "Restar cantidad"
+                        )
+                    }
+                    Text(
+                        text = quantity.value.toString(),
+                        fontSize = 16.sp
+                    )
+                    IconButton(onClick = {
+                        quantity.value += 1
+                        cartItems.onQuantityChanged(quantity.value)
+                    }) {
+                        Icon(
+                            painter = painterResource(id = android.R.drawable.btn_plus),
+                            contentDescription = "Sumar cantidad"
+                        )
+                    }
+                }
+            }
+
+            Text(
+                text = cartItems.productPrice,
+                fontSize = 18.sp,
+                color = Color.Black,
+                modifier = Modifier.padding(end = 8.dp)
+            )
+
+            Box(
+                modifier = Modifier.size(60.dp),
+                contentAlignment = Alignment.TopEnd
+            ) {
+                Image(
+                    painter = painterResource(id = cartItems.productImage),
+                    contentDescription = "Product image",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(CircleShape)
+                )
+                IconButton(
+                    onClick = cartItems.onRemoveItem,
+                    modifier = Modifier
+                        .size(24.dp)
+                        .background(Color.Red, CircleShape)
+                ) {
+                    Icon(
+                        painter = painterResource(id = android.R.drawable.ic_menu_delete),
+                        contentDescription = "Borrar item",
+                        tint = Color.White
+                    )
+                }
+            }
         }
     }
 }

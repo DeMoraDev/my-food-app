@@ -58,8 +58,8 @@ dependencies {
     //2º Paso Apis
 
     //  Dagger Hilt
-    implementation ("com.google.dagger:hilt-android:2.46.1")
-    kapt ("com.google.dagger:hilt-compiler:2.46.1")
+    implementation ("com.google.dagger:hilt-android:2.49")
+    kapt ("com.google.dagger:hilt-compiler:2.49")
 
     implementation("com.github.skydoves:orbital:0.4.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")

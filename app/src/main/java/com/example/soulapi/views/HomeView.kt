@@ -36,6 +36,7 @@ fun HomeView(viewModel: SoulViewModel, navController: NavController) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
+                .background(Color(0xFFf0f0f0))
         ) {
             // Coloca FoodCategories en la parte superior
             FoodCategories()
@@ -60,7 +61,7 @@ fun ContentHomeView(viewModel: SoulViewModel, pad: PaddingValues, navController:
             columns = GridCells.Fixed(2), modifier = Modifier
                 .fillMaxSize()
                 .padding(0.dp)
-                .background(Color.White)
+                .background(Color(0xFFf0f0f0))
         ) {
             items(burgers) { item ->
                 CardBurger(item) {

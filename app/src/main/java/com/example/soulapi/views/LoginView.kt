@@ -11,8 +11,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -28,8 +34,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -47,6 +57,7 @@ fun LoginView(navController: NavController, viewModel: LoginViewModel = hiltView
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var passwordVisible by remember { mutableStateOf(false)}
 
     val loginState by viewModel.loginState.collectAsState()
 
@@ -80,7 +91,9 @@ fun LoginView(navController: NavController, viewModel: LoginViewModel = hiltView
             },
             label = {
                 Text(text = "Email")
-            })
+            },
+            textStyle = TextStyle(color = Color.White)
+            )
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
             value = password,
@@ -90,14 +103,31 @@ fun LoginView(navController: NavController, viewModel: LoginViewModel = hiltView
             label = {
                 Text(text = "Contraseña")
             },
-            visualTransformation = PasswordVisualTransformation()
+            textStyle = TextStyle(color = Color.White),
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                val image = if (passwordVisible) {
+                    Icons.Default.Add
+                } else {
+                    Icons.Default.Clear
+                }
+                IconButton(onClick = {
+                    passwordVisible = !passwordVisible
+                }) {
+                    Icon(imageVector = image, contentDescription = null)
+                }
+            },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Done
+            )
         )
         Spacer(modifier = Modifier.height(3.dp))
         TextButton(onClick = { /*TODO*/ }) {
             Text(text = "¿Olvidó su contraseña?", color = Color.White)
         }
         Button(onClick = {
-            if (email.isNotBlank() && password.isNotBlank()) {
+            if (email.isNotBlank() && password.isNotBlank()) { //Hay que tener en cuenta que sean cosas válidas
                 viewModel.login(email, password)
             } else {
                 // Manejar campos vacíos aquí, por ejemplo, mostrar un mensaje de error
