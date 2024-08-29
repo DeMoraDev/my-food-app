@@ -30,7 +30,6 @@ class SoulRepository @Inject constructor(private val soulApi: SoulApi) {
         }
         return null
     }
-
     suspend fun getImages(): List<ImageBitmap> {
         val response = soulApi.getImages()
 

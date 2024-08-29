@@ -69,25 +69,5 @@ class LoginViewModel @Inject constructor(private val repository: SoulRepository)
             }
         }
     }
-
-    fun register(username: String, password: String) {
-        val request = AuthRequest(username = username, password = password)
-
-        viewModelScope.launch {
-            try {
-                val authResponse = repository.register(request)
-
-                if (authResponse != null && authResponse.error == null) {
-                    println("Registration successful: ${authResponse.message}")
-
-                } else {
-                    val errorMessage = authResponse?.error ?: "Unknown error occurred"
-                    println("Registration error: $errorMessage")
-                }
-            } catch (e: Exception) {
-                println("Network error: ${e.message}")
-            }
-        }
-    }
 }
 

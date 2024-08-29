@@ -15,6 +15,7 @@ import com.example.soulapi.views.DetailView
 import com.example.soulapi.views.FavoriteView
 import com.example.soulapi.views.HomeView
 import com.example.soulapi.views.LoginView
+import com.example.soulapi.views.RegisterView
 import com.example.soulapi.views.SettingsView
 
 @Composable
@@ -23,6 +24,9 @@ fun NavManager(soulViewModel: SoulViewModel) {
     NavHost(navController = navController, startDestination = "Login") {
         composable("Login") {
             LoginView(navController)
+        }
+        composable("RegisterView") {
+            RegisterView(navController)
         }
         composable("HomeView") {
             HomeView(soulViewModel, navController)

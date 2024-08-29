@@ -148,7 +148,7 @@ fun LoginView(navController: NavController, viewModel: LoginViewModel = hiltView
                 modifier = Modifier.padding(end = 8.dp)
             )
             TextButton(onClick = {
-                //Crear cuenta
+                navController.navigate("RegisterView")
             }) {
                 Text(
                     text = "Crear una cuenta",
