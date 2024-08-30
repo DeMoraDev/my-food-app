@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.soulapi.model.ProductsModel
 import com.example.soulapi.model.SoulModel
 import com.example.soulapi.repository.SoulRepository
 import com.example.soulapi.state.BurgerState
@@ -26,13 +27,10 @@ import javax.inject.Inject
 @HiltViewModel
 class SoulViewModel @Inject constructor(private val repository: SoulRepository) : ViewModel() {
 
-    // Valores para las burgers
-    private val _burgers = MutableStateFlow<List<SoulModel>>(emptyList())
-    val burgers = _burgers.asStateFlow()
+    // Valores para los productos
+    private val _products = MutableStateFlow<List<ProductsModel>>(emptyList())
+    val products = _products.asStateFlow()
 
-    // Valores para las imágenes
-    private val _imagenes = MutableStateFlow<List<Painter>>(emptyList())
-    val imagenes: StateFlow<List<Painter>> get() = _imagenes
 
     // StateFlow para manejar errores
     private val _error = MutableStateFlow<String?>(null)
@@ -42,28 +40,9 @@ class SoulViewModel @Inject constructor(private val repository: SoulRepository) 
         private set
 
     init {
-        fetchBurgers()
-        //Log.d("Base64Data", "Data: $this")
-        fetchImages()
+        fetchProducts()
     }
 
-    fun fetchBurgers() {
-        viewModelScope.launch {
-            try {
-                val result = withContext(Dispatchers.IO) {
-                    repository.getBurger()
-                }
-
-                // Actualiza el StateFlow con los resultados o con una lista vacía
-                _burgers.value = result ?: emptyList()
-
-            } catch (e: Exception) {
-                // Manejo de excepciones y comunicación de errores
-                _error.value = "Error al obtener datos: ${e.message}"
-            }
-        }
-
-    }
 
     var selectedItemIndex by mutableStateOf(0)
 
@@ -71,37 +50,18 @@ class SoulViewModel @Inject constructor(private val repository: SoulRepository) 
         selectedItemIndex = index
     }
 
-
-    fun getBurgerById(id: Int) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val result = repository.getBurgerById(id)
-                state = state.copy(
-                    name = result?.name ?: "",
-                    price = result?.price ?: 0.0,
-                    image = result?.image ?: "",
-                    ingredients = result?.ingredients ?: emptyList(),
-                    additionalInfo = result?.additionalInfo ?: ""
-
-                )
-            }
-        }
-    }
-
-
-    //Método de fetchImage
-    fun fetchImages() {
+    fun fetchProducts() {
         viewModelScope.launch {
             try {
-                val result = withContext(Dispatchers.IO) {
-                    repository.getImages() // Devuelve una lista de `ImageBitmap`
+                val products = withContext(Dispatchers.IO) {
+                    repository.getProducts()
                 }
-                _imagenes.value = result.map { BitmapPainter(it) }
+                _products.value = products
+
             } catch (e: Exception) {
-                // Maneja cualquier error aquí
+                _error.value = "Error al obtener los productos: ${e.message}"
             }
         }
-
     }
 }
 

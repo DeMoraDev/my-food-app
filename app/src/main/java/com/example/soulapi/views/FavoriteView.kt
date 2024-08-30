@@ -2,6 +2,7 @@ package com.example.soulapi.views
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,28 +41,27 @@ fun FavoriteView(soulViewModel: SoulViewModel, navController: NavController) {
 @Composable
 fun ContentFavoriteView(viewModel: SoulViewModel, paddingValues: PaddingValues) {
 
-    val images by viewModel.imagenes.collectAsState()
+    val products by viewModel.products.collectAsState()
 
-
-    if (images.isEmpty()) {
-        Text(text = "Cargando imágenes...", color = Color.Black)
+    if (products.isEmpty()) {
+        Text(text = "Cargando productos...", color = Color.Black)
     } else {
         LazyVerticalGrid(
-            columns = GridCells.Fixed(2), // Ajusta el número de columnas según tu diseño
+            columns = GridCells.Fixed(1),
             modifier = Modifier
                 .fillMaxSize()
                 .padding(8.dp)
                 .background(Color(0xFFf0f0f0))
         ) {
-            items(images) { painter ->
-                // Cada celda en la cuadrícula muestra una imagen
-                Image(
-                    painter = painter,
-                    contentDescription = null,
+            items(products) { product ->
+                Text(
+                    text = product.nombre_en,
                     modifier = Modifier
+                        .padding(8.dp)
+                        .background(Color.White)
                         .fillMaxWidth()
-                        .aspectRatio(1f)
-                        .padding(4.dp)
+                        .border(1.dp, Color.Gray)
+                        .padding(16.dp)
                 )
             }
         }

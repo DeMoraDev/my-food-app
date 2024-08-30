@@ -9,6 +9,7 @@ import com.example.soulapi.AuthRequest
 import com.example.soulapi.AuthResponse
 import com.example.soulapi.data.SoulApi
 import com.example.soulapi.model.ImagesModel
+import com.example.soulapi.model.ProductsModel
 import com.example.soulapi.model.SoulModel
 import retrofit2.Response
 import javax.inject.Inject
@@ -40,6 +41,24 @@ class SoulRepository @Inject constructor(private val soulApi: SoulApi) {
             }
         } else {
             throw Exception("Error al obtener las imágenes")
+        }
+    }
+
+    suspend fun getProducts(): List<ProductsModel> {
+        val response = soulApi.getProducts()
+
+        Log.d("API Response", "Code: ${response.code()}, Message: ${response.message()}")
+
+        if (response.body() == null) {
+            Log.e("API Response", "Response body es null")
+        } else {
+            Log.d("API Response", "Response body: ${response.body()}")
+        }
+
+        if (response.isSuccessful && response.body() != null) {
+            return response.body() ?: emptyList()
+        } else {
+            throw Exception("Error al obtener los productos")
         }
     }
 

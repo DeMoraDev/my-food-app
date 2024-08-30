@@ -3,10 +3,12 @@ package com.example.soulapi.data
 import com.example.soulapi.AuthRequest
 import com.example.soulapi.AuthResponse
 import com.example.soulapi.model.ImagesModel
+import com.example.soulapi.model.ProductsModel
 import com.example.soulapi.model.SoulModel
 import com.example.soulapi.util.Constants.Companion.ENDPOINT
 import com.example.soulapi.util.Constants.Companion.IMAGES_ENDPOINT
 import com.example.soulapi.util.Constants.Companion.LOGIN_ENDPOINT
+import com.example.soulapi.util.Constants.Companion.PRODUCTS_ENDPOINT
 import com.example.soulapi.util.Constants.Companion.REGISTER_ENDPOINT
 import retrofit2.Response
 import retrofit2.http.Body
@@ -24,6 +26,9 @@ interface SoulApi {
 
     @GET(IMAGES_ENDPOINT)
     suspend fun getImages(): Response<List<ImagesModel>>
+
+    @GET(PRODUCTS_ENDPOINT)
+    suspend fun getProducts(): Response<List<ProductsModel>>
 
     @POST(LOGIN_ENDPOINT)
     suspend fun login(@Body request: AuthRequest): Response<AuthResponse>

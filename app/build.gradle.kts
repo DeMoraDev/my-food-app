@@ -72,7 +72,7 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 
     //Coil
-    implementation ("io.coil-kt:coil-compose:1.4.0")
+    implementation("io.coil-kt:coil-compose:2.7.0")
 
     //Problema con el hiltViewModel
     implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")

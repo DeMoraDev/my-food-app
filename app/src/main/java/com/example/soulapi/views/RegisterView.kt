@@ -79,12 +79,12 @@ fun ContentRegisterView(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black),
+            .background(Color(0xFFf0f0f0)),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.drawable.logo),
+            painter = painterResource(id = R.drawable.logolight),
             contentDescription = "",
             modifier = Modifier
                 .size(250.dp)
@@ -93,7 +93,7 @@ fun ContentRegisterView(
             text = "Únete ahora y disfruta comiendo",
             fontSize = 29.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.White,
+            color = Color.Black,
             textAlign = TextAlign.Center,
             lineHeight = 40.sp,
             modifier = Modifier.fillMaxWidth()
@@ -121,7 +121,7 @@ fun ContentRegisterView(
                 label = {
                     Text(text = "Email")
                 },
-                textStyle = TextStyle(color = Color.White),
+                textStyle = TextStyle(color = Color.Black),
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions.Default.copy(
                     keyboardType = KeyboardType.Email,
@@ -145,18 +145,18 @@ fun ContentRegisterView(
                 label = {
                     Text(text = "Contraseña")
                 },
-                textStyle = TextStyle(color = Color.White),
+                textStyle = TextStyle(color = Color.Black),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
                     val image = if (passwordVisible) {
-                        Icons.Default.Add
+                        painterResource(id = R.drawable.view)
                     } else {
-                        Icons.Default.Clear
+                        painterResource(id = R.drawable.hidden)
                     }
                     IconButton(onClick = {
                         passwordVisible = !passwordVisible
                     }) {
-                        Icon(imageVector = image, contentDescription = null)
+                        Icon(painter = image, contentDescription = null, modifier = Modifier.size(24.dp))
                     }
                 },
                 keyboardOptions = KeyboardOptions.Default.copy(
@@ -182,18 +182,18 @@ fun ContentRegisterView(
                 label = {
                     Text(text = "Confirmar Contraseña")
                 },
-                textStyle = TextStyle(color = Color.White),
+                textStyle = TextStyle(color = Color.Black),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
                     val image = if (passwordVisible) {
-                        Icons.Default.Add
+                        painterResource(id = R.drawable.view)
                     } else {
-                        Icons.Default.Clear
+                        painterResource(id = R.drawable.hidden)
                     }
                     IconButton(onClick = {
                         passwordVisible = !passwordVisible
                     }) {
-                        Icon(imageVector = image, contentDescription = null)
+                        Icon(painter = image, contentDescription = null, modifier = Modifier.size(24.dp))
                     }
                 },
                 keyboardOptions = KeyboardOptions.Default.copy(

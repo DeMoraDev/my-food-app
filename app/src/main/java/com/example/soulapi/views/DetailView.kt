@@ -25,7 +25,7 @@ import com.example.soulapi.viewModel.SoulViewModel
 @Composable
 fun DetailView(viewModel: SoulViewModel, navController: NavController, id: Int) {
     LaunchedEffect(Unit) {
-        viewModel.getBurgerById(id)
+
     }
     Scaffold(
         topBar = {

@@ -1,3 +1,20 @@
 <resources>
-    <string name="app_name">SoulApi</string>
+    <string name="app_name" translatable="false">SoulApi</string>
+
+                                    <!-- English -->
+
+    <!-- Login -->
+
+    <string name="welcome_message">Welcome to Soul Burger Coffee</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgotten_password">Forgot your password?</string>
+    <string name="no_account_yet">Don\'t have an account yet?</string>
+    <string name="make_account">Create account</string>
+    <string name="login_as_guest">Login as guest</string>
+
+    <!-- Register -->
+
+    <!-- Scaffold -->
+
 </resources>

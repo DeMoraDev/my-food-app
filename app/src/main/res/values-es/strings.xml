@@ -1,2 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+                                    <!-- Español -->
+
+    <!-- Login -->
+
+    <string name="welcome_message">Bienvenido a Soul Burger Coffee</string>
+    <string name="email">Email</string>
+    <string name="password">Contraseña</string>
+    <string name="forgotten_password">¿Olvidó su contraseña?</string>
+    <string name="no_account_yet">¿Todavía no tienes cuenta?</string>
+    <string name="make_account">Crear una cuenta</string>
+    <string name="login_as_guest">Entrar como invitado</string>
+
+    <!-- Register -->
+
+    <!-- Scaffold -->
+
+</resources>

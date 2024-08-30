@@ -39,15 +39,6 @@ fun CartView(soulViewModel: SoulViewModel, navController: NavController) {
 
 @Composable
 fun ContentCartView(viewModel: CartViewModel,soulViewModel: SoulViewModel, paddingValues: PaddingValues) {
-    val burgers by soulViewModel.burgers.collectAsState()
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2), modifier = Modifier
-            .fillMaxSize()
-            .padding(0.dp)
-            .background(Color(0xFFf0f0f0))
-    ) {
-        items(burgers) { item ->
 
-        }
-    }
+
 }

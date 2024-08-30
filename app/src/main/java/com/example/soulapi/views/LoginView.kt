@@ -34,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -64,21 +65,21 @@ fun LoginView(navController: NavController, viewModel: LoginViewModel = hiltView
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black),
+            .background(Color(0xFFf0f0f0)),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.drawable.logo),
+            painter = painterResource(id = R.drawable.logolight),
             contentDescription = "",
             modifier = Modifier
                 .size(250.dp)
         )
         Text(
-            text = "Bienvenidos a Soul Burger Coffee",
+            text = stringResource(id = R.string.welcome_message),
             fontSize = 29.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.White,
+            color = Color.Black,
             textAlign = TextAlign.Center,
             lineHeight = 40.sp,
             modifier = Modifier.fillMaxWidth()
@@ -90,9 +91,9 @@ fun LoginView(navController: NavController, viewModel: LoginViewModel = hiltView
                 email = newEmail
             },
             label = {
-                Text(text = "Email")
+                Text(text = stringResource(id = R.string.email))
             },
-            textStyle = TextStyle(color = Color.White)
+            textStyle = TextStyle(color = Color.Black)
             )
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
@@ -101,20 +102,20 @@ fun LoginView(navController: NavController, viewModel: LoginViewModel = hiltView
                 password = newPass
             },
             label = {
-                Text(text = "Contraseña")
+                Text(text = stringResource(id = R.string.password))
             },
-            textStyle = TextStyle(color = Color.White),
+            textStyle = TextStyle(color = Color.Black),
             visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             trailingIcon = {
                 val image = if (passwordVisible) {
-                    Icons.Default.Add
+                    painterResource(id = R.drawable.view)
                 } else {
-                    Icons.Default.Clear
+                    painterResource(id = R.drawable.hidden)
                 }
                 IconButton(onClick = {
                     passwordVisible = !passwordVisible
                 }) {
-                    Icon(imageVector = image, contentDescription = null)
+                    Icon(painter = image, contentDescription = null, modifier = Modifier.size(24.dp))
                 }
             },
             keyboardOptions = KeyboardOptions.Default.copy(
@@ -124,7 +125,7 @@ fun LoginView(navController: NavController, viewModel: LoginViewModel = hiltView
         )
         Spacer(modifier = Modifier.height(3.dp))
         TextButton(onClick = { /*TODO*/ }) {
-            Text(text = "¿Olvidó su contraseña?", color = Color.White)
+            Text(text = stringResource(id = R.string.forgotten_password), color = Color.Black)
         }
         Button(onClick = {
             if (email.isNotBlank() && password.isNotBlank()) { //Hay que tener en cuenta que sean cosas válidas
@@ -142,16 +143,16 @@ fun LoginView(navController: NavController, viewModel: LoginViewModel = hiltView
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "¿Todavía no tienes cuenta?",
+                text = stringResource(id = R.string.no_account_yet),
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color.White,
+                color = Color.Black,
                 modifier = Modifier.padding(end = 8.dp)
             )
             TextButton(onClick = {
                 navController.navigate("RegisterView")
             }) {
                 Text(
-                    text = "Crear una cuenta",
+                    text = stringResource(id = R.string.make_account),
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color(0xFF2196F3)
                 )
@@ -160,7 +161,7 @@ fun LoginView(navController: NavController, viewModel: LoginViewModel = hiltView
         }
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = { navController.navigate("HomeView") }) {
-            Text(text = "Entrar como invitado")
+            Text(text = stringResource(id = R.string.login_as_guest))
         }
 
         when (loginState) {
