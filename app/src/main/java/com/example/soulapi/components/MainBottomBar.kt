@@ -17,6 +17,8 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.example.soulapi.R
 import com.example.soulapi.model.BottomNavigationItem
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -24,6 +26,34 @@ import com.example.soulapi.model.BottomNavigationItem
 fun MainBottomBar(
     selectedItemIndex: Int, onClickItem: (Int) -> Unit
 ) {
+    val items = listOf(
+        BottomNavigationItem(
+            title = stringResource(id = R.string.HomeBar),
+            selectedIcon = Icons.Filled.Home,
+            unselectedIcon = Icons.Outlined.Home,
+            hasNews = false,
+        ),
+        BottomNavigationItem(
+            title = stringResource(id = R.string.FavBar),
+            selectedIcon = Icons.Filled.Favorite,
+            unselectedIcon = Icons.Outlined.FavoriteBorder,
+            hasNews = false,
+            badgeCount = 7
+        ),
+        BottomNavigationItem(
+            title = stringResource(id = R.string.CartBar),
+            selectedIcon = Icons.Filled.ShoppingCart,
+            unselectedIcon = Icons.Outlined.ShoppingCart,
+            hasNews = false,
+        ),
+        BottomNavigationItem(
+            title = stringResource(id = R.string.SettingsBar),
+            selectedIcon = Icons.Filled.Settings,
+            unselectedIcon = Icons.Outlined.Settings,
+            hasNews = true,
+        ),
+    )
+
     NavigationBar() {
         items.forEachIndexed { index, item ->
             NavigationBarItem(selected = selectedItemIndex == index,
@@ -58,30 +88,4 @@ fun MainBottomBar(
     }
 }
 
-val items = listOf(
-    BottomNavigationItem(
-        title = "Home",
-        selectedIcon = Icons.Filled.Home,
-        unselectedIcon = Icons.Outlined.Home,
-        hasNews = false,
-    ),
-    BottomNavigationItem(
-        title = "Favorites",
-        selectedIcon = Icons.Filled.Favorite,
-        unselectedIcon = Icons.Outlined.FavoriteBorder,
-        hasNews = false,
-        badgeCount = 7
-    ),
-    BottomNavigationItem(
-        title = "Cart",
-        selectedIcon = Icons.Filled.ShoppingCart,
-        unselectedIcon = Icons.Outlined.ShoppingCart,
-        hasNews = false,
-    ),
-    BottomNavigationItem(
-        title = "Settings",
-        selectedIcon = Icons.Filled.Settings,
-        unselectedIcon = Icons.Outlined.Settings,
-        hasNews = true,
-    ),
-)
+

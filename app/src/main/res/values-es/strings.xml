@@ -17,6 +17,13 @@
 
     <!-- Scaffold -->
 
+    <!-- BottomNavBar-->
+
+    <string name="HomeBar">Home</string>
+    <string name="FavBar">Favoritos</string>
+    <string name="CartBar">Carrito</string>
+    <string name="SettingsBar">Configuración</string>
+
     <!-- Categorias -->
 
     <string name="burger">Burguers</string>

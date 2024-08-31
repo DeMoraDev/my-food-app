@@ -57,6 +57,7 @@ import com.example.soulapi.R
 import com.example.soulapi.model.CartCardModel
 import com.example.soulapi.model.ProductsModel
 import com.example.soulapi.util.Utils
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -94,6 +95,13 @@ fun MainTopBar(title: String, showBackButton: Boolean = false, onClickBackButton
 
 @Composable
 fun CardBurger(burger: ProductsModel, onClick: () -> Unit) {
+
+    val productName = when (Locale.getDefault().language){ //Obtener idioma sistema
+        "es" -> burger.nombre_es
+        "en" -> burger.nombre_en
+        else -> burger.nombre_en
+    }
+
     Card(
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
@@ -112,7 +120,7 @@ fun CardBurger(burger: ProductsModel, onClick: () -> Unit) {
 
             // Use padding only on the text elements
             Text(
-                text = burger.nombre_en,
+                text = productName,
                 textAlign = TextAlign.Center,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.ExtraBold,
