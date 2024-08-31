@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -38,6 +39,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -145,7 +147,11 @@ fun MainImage(imageUrl: String) {
     // Verificar el estado de la carga
     when (val result = painter.state) {
         is AsyncImagePainter.State.Loading -> Log.d("ImageLoad", "Loading image")
-        is AsyncImagePainter.State.Error -> Log.e("ImageLoad", "Error loading image: ${result.result}")
+        is AsyncImagePainter.State.Error -> Log.e(
+            "ImageLoad",
+            "Error loading image: ${result.result}"
+        )
+
         is AsyncImagePainter.State.Success -> Log.d("ImageLoad", "Image loaded successfully")
         else -> {}
     }
@@ -174,33 +180,42 @@ fun ImageDetail(image: String) {
 }
 
 @Composable
-fun FoodCategories() {
-    Row(
+fun FoodCategories(navController: NavController) {
+    LazyRow(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+            .padding(vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-
-        CategoryCard(
-            iconResId = R.drawable.burgericon,
-            title = "Burgers",
-            onClick = { }
-        )
-
-
-        CategoryCard(
-            iconResId = R.drawable.pizzaicon,
-            title = "Pizzas",
-            onClick = { }
-        )
-
-
-        CategoryCard(
-            iconResId = R.drawable.bebidaicon,
-            title = "Bebidas",
-            onClick = { }
-        )
+        items(5) { index ->
+            CategoryCard(
+                iconResId = when (index) {
+                    0 -> R.drawable.burgericon
+                    1 -> R.drawable.pizzaicon
+                    2 -> R.drawable.sidesicon
+                    3 -> R.drawable.sauceicon
+                    4 -> R.drawable.bebidaicon
+                    else -> R.drawable.burgericon
+                },
+                title = when (index) {
+                    0 -> stringResource(id = R.string.burger)
+                    1 -> stringResource(id = R.string.pizza)
+                    2 -> stringResource(id = R.string.sides)
+                    3 -> stringResource(id = R.string.sauces)
+                    4 -> stringResource(id = R.string.drinks)
+                    else -> stringResource(id = R.string.unknown)
+                },
+                onClick = {
+                    when (index) {
+                        0 -> navController.navigate("HomeView")
+                        1 -> navController.navigate("PizzasView")
+                        2 -> navController.navigate("SidesView")
+                        3 -> navController.navigate("SaucesView")
+                        4 -> navController.navigate("DrinksView")
+                    }
+                }
+            )
+        }
     }
 }
 

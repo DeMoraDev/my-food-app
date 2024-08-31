@@ -22,7 +22,8 @@ import com.example.soulapi.components.MainScaffold
 import com.example.soulapi.viewModel.SoulViewModel
 
 @Composable
-fun HomeView(viewModel: SoulViewModel, navController: NavController) {
+fun SaucesView(viewModel: SoulViewModel, navController: NavController){
+
     MainScaffold(
         soulViewModel = viewModel,
         viewModel = viewModel,
@@ -38,20 +39,19 @@ fun HomeView(viewModel: SoulViewModel, navController: NavController) {
             FoodCategories(navController)
 
             // Coloca el contenido de ContentHomeView debajo de FoodCategories
-            ContentHomeView(viewModel, paddingValues, navController)
+            ContentSaucesView(viewModel, paddingValues, navController)
         }
     }
 }
 
-
 @Composable
-fun ContentHomeView(viewModel: SoulViewModel, pad: PaddingValues, navController: NavController) {
+fun ContentSaucesView(viewModel: SoulViewModel, pad: PaddingValues, navController: NavController){
 
     val products by viewModel.products.collectAsState()
-    val burgers = products.filter { it.tipo == "burger" }
+    val sauces = products.filter { it.tipo == "sauce" }
 
 
-    if (burgers.isEmpty()) {
+    if (sauces.isEmpty()) {
         Text(text = "Cargando...", color = Color.Gray)
     } else {
         LazyVerticalGrid(
@@ -60,7 +60,7 @@ fun ContentHomeView(viewModel: SoulViewModel, pad: PaddingValues, navController:
                 .padding(0.dp)
                 .background(Color(0xFFf0f0f0))
         ) {
-            items(burgers) { item ->
+            items(sauces) { item ->
                 CardBurger(item) {
                     navController.navigate("DetailView/${item.id}")
                 }

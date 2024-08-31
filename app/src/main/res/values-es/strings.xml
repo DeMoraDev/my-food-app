@@ -17,4 +17,13 @@
 
     <!-- Scaffold -->
 
+    <!-- Categorias -->
+
+    <string name="burger">Burguers</string>
+    <string name="pizza">Pizzas</string>
+    <string name="sides">Entrantes</string>
+    <string name="sauces">Salsas</string>
+    <string name="drinks">Bebidas</string>
+    <string name="unknown">Desconocido</string>
+
 </resources>

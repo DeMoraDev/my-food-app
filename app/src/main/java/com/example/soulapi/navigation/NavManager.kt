@@ -12,11 +12,15 @@ import com.example.soulapi.viewModel.SettingsViewModel
 import com.example.soulapi.viewModel.SoulViewModel
 import com.example.soulapi.views.CartView
 import com.example.soulapi.views.DetailView
+import com.example.soulapi.views.DrinksView
 import com.example.soulapi.views.FavoriteView
 import com.example.soulapi.views.HomeView
 import com.example.soulapi.views.LoginView
+import com.example.soulapi.views.PizzasView
 import com.example.soulapi.views.RegisterView
+import com.example.soulapi.views.SaucesView
 import com.example.soulapi.views.SettingsView
+import com.example.soulapi.views.SidesView
 
 @Composable
 fun NavManager(soulViewModel: SoulViewModel) {
@@ -45,6 +49,18 @@ fun NavManager(soulViewModel: SoulViewModel) {
         }
         composable("SettingsView") {
             SettingsView(soulViewModel, navController)
+        }
+        composable("PizzasView") {
+            PizzasView(soulViewModel, navController)
+        }
+        composable("SidesView") {
+            SidesView(soulViewModel, navController)
+        }
+        composable("SaucesView") {
+            SaucesView(soulViewModel, navController)
+        }
+        composable("DrinksView") {
+            DrinksView(soulViewModel, navController)
         }
     }
 }
