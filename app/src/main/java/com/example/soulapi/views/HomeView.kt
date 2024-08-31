@@ -22,7 +22,8 @@ import com.example.soulapi.components.MainScaffold
 import com.example.soulapi.viewModel.SoulViewModel
 
 @Composable
-fun HomeView(viewModel: SoulViewModel, navController: NavController) {
+fun HomeView(viewModel: SoulViewModel, navController: NavController, filter: String){
+
     MainScaffold(
         soulViewModel = viewModel,
         viewModel = viewModel,
@@ -38,20 +39,25 @@ fun HomeView(viewModel: SoulViewModel, navController: NavController) {
             FoodCategories(navController)
 
             // Coloca el contenido de ContentHomeView debajo de FoodCategories
-            ContentHomeView(viewModel, paddingValues, navController)
+            ContentDrinksView(viewModel, paddingValues, navController, filter)
         }
     }
 }
 
-
 @Composable
-fun ContentHomeView(viewModel: SoulViewModel, pad: PaddingValues, navController: NavController) {
+fun ContentDrinksView(
+    viewModel: SoulViewModel,
+    pad: PaddingValues,
+    navController: NavController,
+    filter: String
+){
 
     val products by viewModel.products.collectAsState()
-    val burgers = products.filter { it.tipo == "burger" }
+    val productsFiltered = products.filter { it.tipo == filter }
+    val favorites by viewModel.favProducts.collectAsState()
 
 
-    if (burgers.isEmpty()) {
+    if (productsFiltered.isEmpty()) {
         Text(text = "Cargando...", color = Color.Gray)
     } else {
         LazyVerticalGrid(
@@ -60,11 +66,17 @@ fun ContentHomeView(viewModel: SoulViewModel, pad: PaddingValues, navController:
                 .padding(0.dp)
                 .background(Color(0xFFf0f0f0))
         ) {
-            items(burgers) { item ->
-                CardBurger(item) {
-                    navController.navigate("DetailView/${item.id}")
-                }
-
+            items(productsFiltered) { item ->
+                CardBurger(
+                    burger = item,
+                    isFavorite = item.id in favorites ,
+                    onClick = {
+                        navController.navigate("DetailView/${item.id}")
+                    },
+                    onFavoriteClick = {
+                                viewModel.addFavoriteProduct(item.id)
+                    }
+                )
             }
         }
     }

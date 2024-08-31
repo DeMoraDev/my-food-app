@@ -13,5 +13,5 @@ data class ProductsModel (
     val ingredients_es: List<String>?,
     val alergenos_en: List<String>?,
     val alergenos_es: List<String>?,
-    val tipo: String?
+    val tipo: String?,
 )

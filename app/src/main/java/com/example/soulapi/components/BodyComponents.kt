@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,7 +21,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,11 +48,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberImagePainter
-import com.example.soulapi.viewModel.SoulViewModel
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
@@ -92,11 +91,10 @@ fun MainTopBar(title: String, showBackButton: Boolean = false, onClickBackButton
         }
     )
 }
-
 @Composable
-fun CardBurger(burger: ProductsModel, onClick: () -> Unit) {
+fun CardBurger(burger: ProductsModel, onClick: () -> Unit, isFavorite: Boolean, onFavoriteClick: () -> Unit) {
 
-    val productName = when (Locale.getDefault().language){ //Obtener idioma sistema
+    val productName = when (Locale.getDefault().language) { // Obtener idioma del sistema
         "es" -> burger.nombre_es
         "en" -> burger.nombre_en
         else -> burger.nombre_en
@@ -106,7 +104,6 @@ fun CardBurger(burger: ProductsModel, onClick: () -> Unit) {
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .padding(10.dp)
-            //.shadow(8.dp)
             .clickable { onClick() }
     ) {
         Column(
@@ -115,8 +112,26 @@ fun CardBurger(burger: ProductsModel, onClick: () -> Unit) {
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Ensure MainImage is at the top without any extra padding
-            MainImage(imageUrl = burger.image)
+            Box(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                // Place the image at the top
+                MainImage(imageUrl = burger.image)
+
+                // Add the favorite icon in the top right corner
+                IconButton(
+                    onClick = { onFavoriteClick() },
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(8.dp)
+                ) {
+                    Icon(
+                        imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                        contentDescription = if (isFavorite) "Remove from favorites" else "Add to favorites",
+                        tint = if (isFavorite) Color.Red else Color.Gray
+                    )
+                }
+            }
 
             // Use padding only on the text elements
             Text(
@@ -142,7 +157,6 @@ fun CardBurger(burger: ProductsModel, onClick: () -> Unit) {
         }
     }
 }
-
 @Composable
 fun MainImage(imageUrl: String) {
     val painter = rememberAsyncImagePainter(
@@ -175,16 +189,35 @@ fun MainImage(imageUrl: String) {
 }
 
 @Composable
-fun ImageDetail(image: String) {
-    val painter = rememberAsyncImagePainter(model = image)
+fun ImageDetail(imageUrl: String) {
+    val painter = rememberAsyncImagePainter(model = imageUrl.replace("localhost", "10.0.2.2"))
 
     Image(
         painter = painter,
         contentDescription = null,
-        contentScale = ContentScale.FillWidth,
+        contentScale = ContentScale.Crop,
         modifier = Modifier
             .fillMaxWidth()
+            .height(250.dp) // Ajusta la altura según sea necesario
+            .border(1.dp, Color.Gray) // Añade un borde para la depuración
     )
+
+    // Manejo de errores y estado de carga
+    when (painter.state) {
+        is AsyncImagePainter.State.Loading -> {
+
+        }
+        is AsyncImagePainter.State.Error -> {
+            // Mostrar un mensaje de error o una imagen de error
+            Text(
+                text = "Error al cargar imagen",
+                color = Color.Red,
+            )
+        }
+        else -> {
+            // Estado por defecto cuando la imagen se ha cargado
+        }
+    }
 }
 
 @Composable

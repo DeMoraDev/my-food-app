@@ -34,34 +34,42 @@ fun FavoriteView(soulViewModel: SoulViewModel, navController: NavController) {
         viewModel = viewModel,
         navController = navController
     ) { paddingValues ->
-        ContentFavoriteView(soulViewModel, paddingValues)
+        ContentFavoriteView(soulViewModel, paddingValues, navController)
     }
 }
 
 @Composable
-fun ContentFavoriteView(viewModel: SoulViewModel, paddingValues: PaddingValues) {
+fun ContentFavoriteView(
+    viewModel: SoulViewModel,
+    pad: PaddingValues,
+    navController: NavController
+){
 
     val products by viewModel.products.collectAsState()
 
-    if (products.isEmpty()) {
-        Text(text = "Cargando productos...", color = Color.Black)
+    val favorites by viewModel.favProducts.collectAsState()
+    val productsFiltered = products.filter { it.id in favorites }
+
+
+    if (productsFiltered.isEmpty()) {
+        Text(text = "Cargando...", color = Color.Gray)
     } else {
         LazyVerticalGrid(
-            columns = GridCells.Fixed(1),
-            modifier = Modifier
+            columns = GridCells.Fixed(2), modifier = Modifier
                 .fillMaxSize()
-                .padding(8.dp)
+                .padding(0.dp)
                 .background(Color(0xFFf0f0f0))
         ) {
-            items(products) { product ->
-                Text(
-                    text = product.nombre_en,
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .background(Color.White)
-                        .fillMaxWidth()
-                        .border(1.dp, Color.Gray)
-                        .padding(16.dp)
+            items(productsFiltered) { item ->
+                CardBurger(
+                    burger = item,
+                    isFavorite = item.id in favorites ,
+                    onClick = {
+                        navController.navigate("DetailView/${item.id}")
+                    },
+                    onFavoriteClick = {
+                        viewModel.addFavoriteProduct(item.id)
+                    }
                 )
             }
         }

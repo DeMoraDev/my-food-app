@@ -1,5 +1,6 @@
 package com.example.soulapi.views
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,57 +12,79 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.soulapi.components.ImageDetail
 import com.example.soulapi.components.MainImage
 import com.example.soulapi.components.MainTopBar
+import com.example.soulapi.model.ProductsModel
 import com.example.soulapi.util.Utils
 import com.example.soulapi.viewModel.SoulViewModel
 
+
 @Composable
 fun DetailView(viewModel: SoulViewModel, navController: NavController, id: Int) {
-    LaunchedEffect(Unit) {
+    // Recoge el estado actual de los productos
+    val products by viewModel.products.collectAsState()
 
-    }
+    // Buscar el producto usando el ID pasado
+    val product = products.firstOrNull { it.id == id }
+
     Scaffold(
         topBar = {
-            MainTopBar(title = viewModel.state.name, showBackButton = true) {
+            MainTopBar(
+                title = product?.nombre_en ?: "Producto no encontrado",
+                showBackButton = true
+            ) {
                 navController.popBackStack()
             }
         }
-    ) {
-        ContentDetailView(it, viewModel)
+    ) { paddingValues ->
+        if (product != null) {
+            ContentDetailView(paddingValues, product)
+        } else {
+            Text(
+                text = "Producto no encontrado",
+                color = Color.White,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
     }
 }
 
 @Composable
-fun ContentDetailView(pad: PaddingValues, viewModel: SoulViewModel) {
-    val state = viewModel.state
+fun ContentDetailView(paddingValues: PaddingValues, product: ProductsModel) {
     Column(
         modifier = Modifier
-            .padding(pad)
-            .background(Color.Black)
+            .padding(paddingValues)
+            .background(Color.White)
     ) {
-        ImageDetail(image = state.image)
+        ImageDetail(imageUrl = product.image)
         Spacer(modifier = Modifier.height(10.dp))
         Column(modifier = Modifier.fillMaxSize()) {
-            Text(text = Utils.formatPrice(state.price), fontSize = 30.sp, color = Color.White)
+            Text(text = Utils.formatPrice(product.price), fontSize = 30.sp, color = Color.Black)
             Spacer(modifier = Modifier.height(10.dp))
-            Text(text = "Ingredientes:", fontSize = 30.sp, color = Color.Magenta)
-            state.ingredients.forEach { ingredient ->
-                Text(text = "- $ingredient", color = Color.White)
+            Text(text = "Ingredientes:", fontSize = 30.sp, fontWeight = FontWeight.ExtraBold, color = Color.Black)
+            product.ingredients_en?.forEach { ingredient ->
+                Text(text = "- $ingredient", color = Color.Black)
             }
             Spacer(modifier = Modifier.height(10.dp))
-            Text(
-                text = state.additionalInfo,
-                color = Color.White,
-                fontSize = 16.sp, // Ajusta el tamaño de fuente si es necesario
-                modifier = Modifier.padding(top = 8.dp) // Espacio superior para separar de otros elementos
-            )
+
+            // Mostrar la sección de alérgenos
+            Text(text = "Alérgenos:", fontSize = 30.sp, color = Color.Black)
+            if (product.alergenos_en.isNullOrEmpty()) {
+                Text(text = "- No hay alérgenos disponibles", color = Color.Black)
+            } else {
+                product.alergenos_en?.forEach { alergen ->
+                    Text(text = "- $alergen", color = Color.Black)
+                }
+            }
         }
     }
 }

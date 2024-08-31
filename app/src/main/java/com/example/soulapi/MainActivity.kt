@@ -14,7 +14,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.soulapi.navigation.NavManager
 import com.example.soulapi.ui.theme.SoulApiTheme
 import com.example.soulapi.viewModel.SoulViewModel
-import com.example.soulapi.views.HomeView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
