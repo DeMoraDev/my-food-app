@@ -1,5 +1,6 @@
 package com.example.soulapi.components
 
+import android.annotation.SuppressLint
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -17,15 +18,25 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import com.example.soulapi.R
 import com.example.soulapi.model.BottomNavigationItem
+import com.example.soulapi.viewModel.SoulViewModel
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainBottomBar(
-    selectedItemIndex: Int, onClickItem: (Int) -> Unit
+    selectedItemIndex: Int,
+    onClickItem: (Int) -> Unit,
+    soulViewModel: SoulViewModel
 ) {
+
+    val favoriteCount by soulViewModel.favProducts.collectAsState()
+    val favCount = favoriteCount.size
+
     val items = listOf(
         BottomNavigationItem(
             title = stringResource(id = R.string.HomeBar),
@@ -38,7 +49,7 @@ fun MainBottomBar(
             selectedIcon = Icons.Filled.Favorite,
             unselectedIcon = Icons.Outlined.FavoriteBorder,
             hasNews = false,
-            badgeCount = 7
+            badgeCount = if (favCount > 0) favCount.toString() else ""
         ),
         BottomNavigationItem(
             title = stringResource(id = R.string.CartBar),
@@ -54,26 +65,24 @@ fun MainBottomBar(
         ),
     )
 
-    NavigationBar() {
+    NavigationBar {
         items.forEachIndexed { index, item ->
-            NavigationBarItem(selected = selectedItemIndex == index,
-                onClick = {
-                    onClickItem(index)
-                },
-                label = {
-                    Text(text = item.title)
-                },
+            NavigationBarItem(
+                selected = selectedItemIndex == index,
+                onClick = { onClickItem(index) },
+                label = { Text(text = item.title) },
                 icon = {
                     BadgedBox(
                         badge = {
-                            if (item.badgeCount != null) {
+                            if (item.badgeCount != null && item.badgeCount != "0") {
                                 Badge {
-                                    Text(text = item.badgeCount.toString())
+                                    Text(text = item.badgeCount)
                                 }
                             } else if (item.hasNews) {
                                 Badge()
                             }
-                        }) {
+                        }
+                    ) {
                         Icon(
                             imageVector = if (index == selectedItemIndex) {
                                 item.selectedIcon
@@ -83,9 +92,8 @@ fun MainBottomBar(
                             contentDescription = item.title
                         )
                     }
-                })
+                }
+            )
         }
     }
 }
-
-

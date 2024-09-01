@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -385,6 +386,44 @@ fun CartItemCard(cartItems: CartCardModel) {
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun getIconForAllergen(allergen: String): Painter {
+    val context = LocalContext.current
+    val iconRes = when (allergen.lowercase()) {
+        "fish", "pescado" -> R.drawable.fish
+        "lupins", "altramuces" -> R.drawable.lupins
+        "celery", "apio" -> R.drawable.celery
+        "crustaceans", "crustaceo" -> R.drawable.crustaceans
+        "sulfur dioxide", "sulphites", "dioxido azufre", "sulfitos" -> R.drawable.sulfur
+        "peel fruits", "frutos cascara" -> R.drawable.peelfruit
+        "gluten" -> R.drawable.gluten
+        "peanuts", "cacahuetes" -> R.drawable.peanuts
+        "sesame grains", "granos sesamo" -> R.drawable.sesamo
+        "eggs", "huevos" -> R.drawable.eggs
+        "dairy", "lacteos" -> R.drawable.dairy
+        "mollusks", "moluscos" -> R.drawable.mollusks
+        "mustard", "mostaza" -> R.drawable.mustard
+        "soy", "soja" -> R.drawable.soy
+        else -> R.drawable.ic_launcher_background// Un icono por defecto si no hay coincidencia
+    }
+    return painterResource(id = iconRes)
+}
+
+@Composable
+fun AllergenIcons(allergens: List<String>) {
+    Row(modifier = Modifier.padding(8.dp)) {
+        allergens.forEach { allergen ->
+            Image(
+                painter = getIconForAllergen(allergen),
+                contentDescription = allergen,
+                modifier = Modifier
+                    .size(40.dp)
+                    .padding(4.dp)
+            )
         }
     }
 }

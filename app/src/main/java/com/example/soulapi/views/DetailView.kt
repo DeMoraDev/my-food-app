@@ -6,8 +6,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.soulapi.components.AllergenIcons
 import com.example.soulapi.components.ImageDetail
 import com.example.soulapi.components.MainImage
 import com.example.soulapi.components.MainTopBar
@@ -64,26 +68,48 @@ fun ContentDetailView(paddingValues: PaddingValues, product: ProductsModel) {
         modifier = Modifier
             .padding(paddingValues)
             .background(Color.White)
+            .padding(20.dp)
     ) {
         ImageDetail(imageUrl = product.image)
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(text = product.nombre_en, fontWeight = FontWeight.ExtraBold, fontSize = 30.sp)
         Spacer(modifier = Modifier.height(10.dp))
         Column(modifier = Modifier.fillMaxSize()) {
             Text(text = Utils.formatPrice(product.price), fontSize = 30.sp, color = Color.Black)
             Spacer(modifier = Modifier.height(10.dp))
-            Text(text = "Ingredientes:", fontSize = 30.sp, fontWeight = FontWeight.ExtraBold, color = Color.Black)
+            Text(
+                text = "Ingredientes:",
+                fontSize = 30.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = Color.Black
+            )
             product.ingredients_en?.forEach { ingredient ->
                 Text(text = "- $ingredient", color = Color.Black)
             }
             Spacer(modifier = Modifier.height(10.dp))
 
             // Mostrar la sección de alérgenos
-            Text(text = "Alérgenos:", fontSize = 30.sp, color = Color.Black)
+            Text(
+                text = "Alérgenos:",
+                fontSize = 30.sp,
+                color = Color.Black,
+                fontWeight = FontWeight.ExtraBold
+            )
             if (product.alergenos_en.isNullOrEmpty()) {
-                Text(text = "- No hay alérgenos disponibles", color = Color.Black)
+                Text(text = "- No hay alérgenos disponibles", color = Color.White)
             } else {
-                product.alergenos_en?.forEach { alergen ->
-                    Text(text = "- $alergen", color = Color.Black)
-                }
+                AllergenIcons(allergens = product.alergenos_en)
+            }
+            Button(
+                onClick = { /* Lógica para añadir al carrito */ },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFFFA500) 
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)
+            ) {
+                Text(text = "Add to Cart", fontSize = 20.sp)
             }
         }
     }

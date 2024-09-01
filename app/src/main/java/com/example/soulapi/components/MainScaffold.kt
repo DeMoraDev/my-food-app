@@ -21,15 +21,19 @@ fun <T : ViewModel> MainScaffold(
             }
         },
         bottomBar = {
-            MainBottomBar(soulViewModel.selectedItemIndex) { index ->
-                soulViewModel.onNavigationItemSelected(index)
-                when (index) {
-                    0 -> navController.navigate("HomeView")
-                    1 -> navController.navigate("FavoriteView")
-                    2 -> navController.navigate("CartView")
-                    3 -> navController.navigate("SettingsView")
-                }
-            }
+            MainBottomBar(
+                selectedItemIndex = soulViewModel.selectedItemIndex,
+                onClickItem = { index ->
+                    soulViewModel.onNavigationItemSelected(index)
+                    when (index) {
+                        0 -> navController.navigate("HomeView")
+                        1 -> navController.navigate("FavoriteView")
+                        2 -> navController.navigate("CartView")
+                        3 -> navController.navigate("SettingsView")
+                    }
+                },
+                soulViewModel = soulViewModel
+            )
         }
     ) { paddingValues ->
         content(paddingValues)
