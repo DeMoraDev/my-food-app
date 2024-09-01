@@ -1,8 +1,10 @@
 package com.example.soulapi.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -10,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.soulapi.viewModel.SoulViewModel
 import com.example.soulapi.views.CartView
+import com.example.soulapi.views.ContentDrinksView
 import com.example.soulapi.views.DetailView
 import com.example.soulapi.views.HomeView
 import com.example.soulapi.views.LoginView
@@ -48,7 +51,7 @@ fun NavManager(soulViewModel: SoulViewModel) {
             HomeView(soulViewModel, navController,  products.filter { it.tipo == "drink" })
         }
         composable("FavoriteView") {
-            HomeView(soulViewModel, navController,  products.filter { it.id in favorites })
+            HomeView(soulViewModel, navController,  products.filter { it.id in favorites})
         }
 
 
