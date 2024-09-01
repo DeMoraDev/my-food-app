@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -25,18 +24,14 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
@@ -54,7 +49,7 @@ import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.soulapi.R
-import com.example.soulapi.model.CartCardModel
+import com.example.soulapi.model.CartModel
 import com.example.soulapi.model.ProductsModel
 import com.example.soulapi.util.Utils
 import java.util.Locale
@@ -95,7 +90,7 @@ fun MainTopBar(title: String, showBackButton: Boolean = false, onClickBackButton
 @Composable
 fun CardBurger(burger: ProductsModel, onClick: () -> Unit, isFavorite: Boolean, onFavoriteClick: () -> Unit) {
 
-    val productName = when (Locale.getDefault().language) { // Obtener idioma del sistema
+    val productName = when (Locale.getDefault().language) {
         "es" -> burger.nombre_es
         "en" -> burger.nombre_en
         else -> burger.nombre_en
@@ -149,6 +144,57 @@ fun CardBurger(burger: ProductsModel, onClick: () -> Unit, isFavorite: Boolean, 
             )
             Text(
                 text = Utils.formatPrice(burger.price),
+                fontSize = 20.sp,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+                modifier = Modifier.padding(bottom = 8.dp, start = 8.dp, end = 8.dp)
+            )
+        }
+    }
+}
+@Composable
+fun CardCart(cartModel: CartModel) {
+
+    val productName = when (Locale.getDefault().language) {
+        "es" -> cartModel.product.nombre_es
+        "en" -> cartModel.product.nombre_en
+        else -> cartModel.product.nombre_en
+    }
+
+    Card(
+        shape = RoundedCornerShape(20.dp),
+        modifier = Modifier
+            .padding(10.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .background(Color.White)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Box(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                // Place the image at the top
+                MainImage(imageUrl = cartModel.product.image)
+            }
+
+            // Use padding only on the text elements
+            Text(
+                text = productName,
+                textAlign = TextAlign.Center,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = Color.Black,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .padding(top = 8.dp, bottom = 6.dp, start = 8.dp, end = 8.dp)
+                    .height(60.dp)
+            )
+            Text(
+                text = Utils.formatPrice(cartModel.product.price),
                 fontSize = 20.sp,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
@@ -297,98 +343,6 @@ fun CategoryCard(
     }
 }
 
-@Composable
-fun CartItemCard(cartItems: CartCardModel) {
-
-    val quantity = remember { mutableStateOf(cartItems.initialQuantity) }
-
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = cartItems.productName,
-                    fontSize = 18.sp,
-                    color = Color.Black
-                )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    IconButton(onClick = {
-                        if (quantity.value > 1) {
-                            quantity.value -= 1
-                            cartItems.onQuantityChanged(quantity.value)
-                        }
-                    }) {
-                        Icon(
-                            painter = painterResource(id = android.R.drawable.btn_minus),
-                            contentDescription = "Restar cantidad"
-                        )
-                    }
-                    Text(
-                        text = quantity.value.toString(),
-                        fontSize = 16.sp
-                    )
-                    IconButton(onClick = {
-                        quantity.value += 1
-                        cartItems.onQuantityChanged(quantity.value)
-                    }) {
-                        Icon(
-                            painter = painterResource(id = android.R.drawable.btn_plus),
-                            contentDescription = "Sumar cantidad"
-                        )
-                    }
-                }
-            }
-
-            Text(
-                text = cartItems.productPrice,
-                fontSize = 18.sp,
-                color = Color.Black,
-                modifier = Modifier.padding(end = 8.dp)
-            )
-
-            Box(
-                modifier = Modifier.size(60.dp),
-                contentAlignment = Alignment.TopEnd
-            ) {
-                Image(
-                    painter = painterResource(id = cartItems.productImage),
-                    contentDescription = "Product image",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(CircleShape)
-                )
-                IconButton(
-                    onClick = cartItems.onRemoveItem,
-                    modifier = Modifier
-                        .size(24.dp)
-                        .background(Color.Red, CircleShape)
-                ) {
-                    Icon(
-                        painter = painterResource(id = android.R.drawable.ic_menu_delete),
-                        contentDescription = "Borrar item",
-                        tint = Color.White
-                    )
-                }
-            }
-        }
-    }
-}
 
 @Composable
 fun getIconForAllergen(allergen: String): Painter {

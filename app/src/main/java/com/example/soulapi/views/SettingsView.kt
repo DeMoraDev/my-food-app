@@ -10,18 +10,16 @@ import com.example.soulapi.components.MainScaffold
 import com.example.soulapi.viewModel.SettingsViewModel
 import com.example.soulapi.viewModel.SoulViewModel
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+
 @Composable
-fun SettingsView(soulViewModel: SoulViewModel, navController: NavController) {
+fun SettingsView(
+    soulViewModel: SoulViewModel,
+    navController: NavController,
+    paddingValues: PaddingValues
+) {
     val viewModel: SettingsViewModel = hiltViewModel()
 
-    MainScaffold(
-        soulViewModel = soulViewModel,
-        viewModel = viewModel,
-        navController = navController
-    ) { paddingValues ->
-        ContentSettingsView(viewModel, paddingValues)
-    }
+
 }
 
 @Composable

@@ -19,8 +19,11 @@ object SharedPrefsManager {
 
     fun loadFavorites(context: Context): List<Int> {
         val sharedPreferences: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val idsString = sharedPreferences.getString(FAVORITES_KEY, "")
 
-        val idsString = sharedPreferences.getString(FAVORITES_KEY, null)
-        return idsString?.split(",")?.map { it.toInt() } ?: emptyList()
+        return idsString
+            ?.split(",")
+            ?.mapNotNull { it.toIntOrNull() } // Convierte cada elemento a entero, ignorando los valores nulos
+            ?: emptyList() // Devuelve una lista vacía si `idsString` es nulo
     }
 }

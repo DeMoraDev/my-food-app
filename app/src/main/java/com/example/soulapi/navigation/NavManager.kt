@@ -4,15 +4,15 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.soulapi.components.MainScaffold
 import com.example.soulapi.viewModel.SoulViewModel
 import com.example.soulapi.views.CartView
-import com.example.soulapi.views.ContentDrinksView
 import com.example.soulapi.views.DetailView
 import com.example.soulapi.views.HomeView
 import com.example.soulapi.views.LoginView
@@ -22,11 +22,11 @@ import com.example.soulapi.views.SettingsView
 @Composable
 fun NavManager(soulViewModel: SoulViewModel) {
     val navController = rememberNavController()
-
     val products by soulViewModel.products.collectAsState()
     val favorites by soulViewModel.favProducts.collectAsState()
 
     NavHost(navController = navController, startDestination = "Login") {
+        // Destinos que no usan el Scaffold
         composable("Login") {
             LoginView(navController)
         }
@@ -34,43 +34,100 @@ fun NavManager(soulViewModel: SoulViewModel) {
             RegisterView(navController)
         }
 
-
+        // Destinos que usan el Scaffold
         composable("HomeView") {
-            HomeView(soulViewModel, navController,  products.filter { it.tipo == "burger" })
+            MainScaffold(
+                soulViewModel = soulViewModel,
+                navController = navController,
+                showBottomBar = true,
+                content = { paddingValues ->
+                    HomeView(soulViewModel, navController, products.filter { it.tipo == "burger" }, paddingValues)
+                }
+            )
         }
         composable("PizzasView") {
-            HomeView(soulViewModel, navController,  products.filter { it.tipo == "pizza" })
+            MainScaffold(
+                soulViewModel = soulViewModel,
+                navController = navController,
+                showBottomBar = true,
+                content = { paddingValues ->
+                    HomeView(soulViewModel, navController, products.filter { it.tipo == "pizza" }, paddingValues)
+                }
+            )
         }
         composable("SidesView") {
-            HomeView(soulViewModel, navController,  products.filter { it.tipo == "sides" })
+            MainScaffold(
+                soulViewModel = soulViewModel,
+                navController = navController,
+                showBottomBar = true,
+                content = { paddingValues ->
+                    HomeView(soulViewModel, navController, products.filter { it.tipo == "sides" }, paddingValues)
+                }
+            )
         }
         composable("SaucesView") {
-            HomeView(soulViewModel, navController,  products.filter { it.tipo == "sauce" })
+            MainScaffold(
+                soulViewModel = soulViewModel,
+                navController = navController,
+                showBottomBar = true,
+                content = { paddingValues ->
+                    HomeView(soulViewModel, navController, products.filter { it.tipo == "sauce" }, paddingValues)
+                }
+            )
         }
         composable("DrinksView") {
-            HomeView(soulViewModel, navController,  products.filter { it.tipo == "drink" })
+            MainScaffold(
+                soulViewModel = soulViewModel,
+                navController = navController,
+                showBottomBar = true,
+                content = { paddingValues ->
+                    HomeView(soulViewModel, navController, products.filter { it.tipo == "drink" }, paddingValues)
+                }
+            )
         }
         composable("FavoriteView") {
-            HomeView(soulViewModel, navController,  products.filter { it.id in favorites})
+            MainScaffold(
+                soulViewModel = soulViewModel,
+                navController = navController,
+                showBottomBar = true,
+                content = { paddingValues ->
+                    HomeView(soulViewModel, navController, products.filter { it.id in favorites }, paddingValues)
+                }
+            )
         }
-
-
         composable("DetailView/{id}", arguments = listOf(
             navArgument("id") { type = NavType.IntType }
         )) {
             val id = it.arguments?.getInt("id") ?: 0
-            DetailView(soulViewModel, navController, id)
+            MainScaffold(
+                soulViewModel = soulViewModel,
+                navController = navController,
+                showBottomBar = true,
+                content = { paddingValues ->
+                    DetailView(soulViewModel, navController, id, paddingValues)
+                }
+            )
         }
-
-
-
-
         composable("CartView") {
-            CartView(soulViewModel, navController)
+            MainScaffold(
+                soulViewModel = soulViewModel,
+                navController = navController,
+                showBottomBar = true,
+                content = { paddingValues ->
+                    CartView()
+                }
+            )
         }
         composable("SettingsView") {
-            SettingsView(soulViewModel, navController)
+            MainScaffold(
+                soulViewModel = soulViewModel,
+                navController = navController,
+                showBottomBar = true,
+                content = { paddingValues ->
+                    SettingsView(soulViewModel, navController, paddingValues)
+                }
+            )
         }
-
     }
 }
+

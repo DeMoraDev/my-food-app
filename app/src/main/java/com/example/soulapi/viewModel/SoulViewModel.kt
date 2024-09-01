@@ -2,31 +2,21 @@ package com.example.soulapi.viewModel
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.content.Context
-import android.graphics.BitmapFactory
-import android.util.Base64
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.painter.BitmapPainter
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.soulapi.savedLists
 import com.example.soulapi.SharedPrefsManager.loadFavorites
 import com.example.soulapi.SharedPrefsManager.saveFavorites
+import com.example.soulapi.model.CartModel
 import com.example.soulapi.model.ProductsModel
-import com.example.soulapi.model.SoulModel
 import com.example.soulapi.repository.SoulRepository
 import com.example.soulapi.state.BurgerState
-import dagger.hilt.android.internal.Contexts.getApplication
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -51,13 +41,18 @@ class SoulViewModel @Inject constructor(
     private val _error = MutableStateFlow<String?>(null)
     val error = _error.asStateFlow()
 
+
+    fun addList(get: ProductsModel) {
+        val p = CartModel(get,1)
+        savedLists.cartList.add(p)
+    }
+
     var state by mutableStateOf(BurgerState())
         private set
 
     private val _favProdcuts = MutableStateFlow<List<Int>>(emptyList())
     val favProducts = _favProdcuts.asStateFlow()
 
-    val cartProducts = listOf<Pair<Int, Int>>()
 
     fun addFavoriteProduct(productId: Int) {
         val currentFavorites = _favProdcuts.value.toMutableList()
@@ -103,4 +98,3 @@ class SoulViewModel @Inject constructor(
         }
     }
 }
-

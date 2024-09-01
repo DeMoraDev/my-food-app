@@ -1,6 +1,5 @@
 package com.example.soulapi.views
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,7 +13,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -25,7 +23,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.soulapi.components.AllergenIcons
 import com.example.soulapi.components.ImageDetail
-import com.example.soulapi.components.MainImage
 import com.example.soulapi.components.MainTopBar
 import com.example.soulapi.model.ProductsModel
 import com.example.soulapi.util.Utils
@@ -33,7 +30,12 @@ import com.example.soulapi.viewModel.SoulViewModel
 
 
 @Composable
-fun DetailView(viewModel: SoulViewModel, navController: NavController, id: Int) {
+fun DetailView(
+    viewModel: SoulViewModel,
+    navController: NavController,
+    id: Int,
+    paddingValues: PaddingValues
+) {
     // Recoge el estado actual de los productos
     val products by viewModel.products.collectAsState()
 
@@ -51,7 +53,7 @@ fun DetailView(viewModel: SoulViewModel, navController: NavController, id: Int) 
         }
     ) { paddingValues ->
         if (product != null) {
-            ContentDetailView(paddingValues, product)
+            ContentDetailView(paddingValues, product, viewModel)
         } else {
             Text(
                 text = "Producto no encontrado",
@@ -63,7 +65,7 @@ fun DetailView(viewModel: SoulViewModel, navController: NavController, id: Int) 
 }
 
 @Composable
-fun ContentDetailView(paddingValues: PaddingValues, product: ProductsModel) {
+fun ContentDetailView(paddingValues: PaddingValues, product: ProductsModel,  viewModel: SoulViewModel) {
     Column(
         modifier = Modifier
             .padding(paddingValues)
@@ -101,9 +103,9 @@ fun ContentDetailView(paddingValues: PaddingValues, product: ProductsModel) {
                 AllergenIcons(allergens = product.alergenos_en)
             }
             Button(
-                onClick = { /* Lógica para añadir al carrito */ },
+                onClick = { viewModel.addList(product) },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFFFA500) 
+                    containerColor = Color(0xFFFFA500)
                 ),
                 modifier = Modifier
                     .fillMaxWidth()

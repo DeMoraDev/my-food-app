@@ -20,7 +20,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.navigation.NavController
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.soulapi.R
 import com.example.soulapi.model.BottomNavigationItem
 import com.example.soulapi.viewModel.SoulViewModel
@@ -29,8 +31,7 @@ import com.example.soulapi.viewModel.SoulViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainBottomBar(
-    selectedItemIndex: Int,
-    onClickItem: (Int) -> Unit,
+    navController: NavController,
     soulViewModel: SoulViewModel
 ) {
 
@@ -65,16 +66,59 @@ fun MainBottomBar(
         ),
     )
 
+    // Observar el destino actual de la navegación
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+
     NavigationBar {
         items.forEachIndexed { index, item ->
+            val isSelected = when (currentDestination?.route) {
+                "HomeView" -> index == 0
+                "FavoriteView" -> index == 1
+                "CartView" -> index == 2
+                "SettingsView" -> index == 3
+                else -> false
+            }
+
             NavigationBarItem(
-                selected = selectedItemIndex == index,
-                onClick = { onClickItem(index) },
+                selected = isSelected,
+                onClick = {
+                    when (index) {
+                        0 -> navController.navigate("HomeView") {
+                            popUpTo(navController.graph.startDestinationId) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                        1 -> navController.navigate("FavoriteView") {
+                            popUpTo(navController.graph.startDestinationId) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                        2 -> navController.navigate("CartView") {
+                            popUpTo(navController.graph.startDestinationId) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                        3 -> navController.navigate("SettingsView") {
+                            popUpTo(navController.graph.startDestinationId) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    }
+                },
                 label = { Text(text = item.title) },
                 icon = {
                     BadgedBox(
                         badge = {
-                            if (item.badgeCount != null && item.badgeCount != "0") {
+                            if (item.badgeCount.isNotEmpty() && item.badgeCount != "0") {
                                 Badge {
                                     Text(text = item.badgeCount)
                                 }
@@ -84,7 +128,7 @@ fun MainBottomBar(
                         }
                     ) {
                         Icon(
-                            imageVector = if (index == selectedItemIndex) {
+                            imageVector = if (isSelected) {
                                 item.selectedIcon
                             } else {
                                 item.unselectedIcon

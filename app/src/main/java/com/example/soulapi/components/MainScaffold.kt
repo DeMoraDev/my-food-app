@@ -3,15 +3,15 @@ package com.example.soulapi.components
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.soulapi.viewModel.SoulViewModel
 
 @Composable
-fun <T : ViewModel> MainScaffold(
+fun MainScaffold(
     soulViewModel: SoulViewModel,
-    viewModel: T,
     navController: NavController,
+    showBottomBar: Boolean = true, // Controla la visibilidad del BottomBar
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
@@ -21,19 +21,12 @@ fun <T : ViewModel> MainScaffold(
             }
         },
         bottomBar = {
-            MainBottomBar(
-                selectedItemIndex = soulViewModel.selectedItemIndex,
-                onClickItem = { index ->
-                    soulViewModel.onNavigationItemSelected(index)
-                    when (index) {
-                        0 -> navController.navigate("HomeView")
-                        1 -> navController.navigate("FavoriteView")
-                        2 -> navController.navigate("CartView")
-                        3 -> navController.navigate("SettingsView")
-                    }
-                },
-                soulViewModel = soulViewModel
-            )
+            if (showBottomBar) {
+                MainBottomBar(
+                    navController = navController,
+                    soulViewModel = soulViewModel
+                )
+            }
         }
     ) { paddingValues ->
         content(paddingValues)

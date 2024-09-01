@@ -23,25 +23,23 @@ import com.example.soulapi.model.ProductsModel
 import com.example.soulapi.viewModel.SoulViewModel
 
 @Composable
-fun HomeView(viewModel: SoulViewModel, navController: NavController, filteredProductList: List<ProductsModel>){
+fun HomeView(
+    viewModel: SoulViewModel,
+    navController: NavController,
+    filteredProductList: List<ProductsModel>,
+    paddingValues: PaddingValues
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .background(Color(0xFFf0f0f0))
+    ) {
+        // Coloca FoodCategories en la parte superior
+        FoodCategories(navController)
 
-    MainScaffold(
-        soulViewModel = viewModel,
-        viewModel = viewModel,
-        navController = navController
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .background(Color(0xFFf0f0f0))
-        ) {
-            // Coloca FoodCategories en la parte superior
-            FoodCategories(navController)
-
-            // Coloca el contenido de ContentHomeView debajo de FoodCategories
-            ContentDrinksView(viewModel, paddingValues, navController, filteredProductList)
-        }
+        // Coloca el contenido de ContentDrinksView debajo de FoodCategories
+        ContentDrinksView(viewModel, paddingValues, navController, filteredProductList)
     }
 }
 
@@ -51,17 +49,16 @@ fun ContentDrinksView(
     pad: PaddingValues,
     navController: NavController,
     productsFiltered: List<ProductsModel>
-){
-
+) {
     val products by viewModel.products.collectAsState()
     val favorites by viewModel.favProducts.collectAsState()
-
 
     if (productsFiltered.isEmpty()) {
         Text(text = "Cargando...", color = Color.Gray)
     } else {
         LazyVerticalGrid(
-            columns = GridCells.Fixed(2), modifier = Modifier
+            columns = GridCells.Fixed(2),
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(0.dp)
                 .background(Color(0xFFf0f0f0))
@@ -69,12 +66,12 @@ fun ContentDrinksView(
             items(productsFiltered) { item ->
                 CardBurger(
                     burger = item,
-                    isFavorite = item.id in favorites ,
+                    isFavorite = item.id in favorites,
                     onClick = {
                         navController.navigate("DetailView/${item.id}")
                     },
                     onFavoriteClick = {
-                                viewModel.addFavoriteProduct(item.id)
+                        viewModel.addFavoriteProduct(item.id)
                     }
                 )
             }
