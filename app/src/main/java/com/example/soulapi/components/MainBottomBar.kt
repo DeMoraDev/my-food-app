@@ -50,13 +50,13 @@ fun MainBottomBar(
             selectedIcon = Icons.Filled.Favorite,
             unselectedIcon = Icons.Outlined.FavoriteBorder,
             hasNews = false,
-            badgeCount = if (favCount > 0) favCount.toString() else ""
         ),
         BottomNavigationItem(
             title = stringResource(id = R.string.CartBar),
             selectedIcon = Icons.Filled.ShoppingCart,
             unselectedIcon = Icons.Outlined.ShoppingCart,
             hasNews = false,
+            badgeCount = if (favCount > 0) favCount.toString() else ""
         ),
         BottomNavigationItem(
             title = stringResource(id = R.string.SettingsBar),

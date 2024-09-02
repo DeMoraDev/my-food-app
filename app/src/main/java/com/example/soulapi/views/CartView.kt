@@ -1,5 +1,6 @@
 package com.example.soulapi.views
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -8,27 +9,33 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.soulapi.savedLists
 import com.example.soulapi.components.CardCart
+import com.example.soulapi.model.CartModel
+import com.example.soulapi.model.ProductsModel
+import com.example.soulapi.savedLists
+import com.example.soulapi.viewModel.CartViewModel
 
 
 @Composable
 fun CartView(
-
+    viewModel: CartViewModel // Pasar el ViewModel directamente
 ) {
-    ContentCartView()
-
+    // Llamar a ContentCartView con el ViewModel
+    ContentCartView(viewModel)
 }
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun ContentCartView(
+fun ContentCartView(viewModel: CartViewModel, ) {
+    // Obtener la lista de items directamente desde el ViewModel
 
-) {
 
-    if (savedLists.cartList.isEmpty()) {
+   /* if (viewModel.cartList.value.isEmpty()) {
         Text(text = "Cargando...", color = Color.Gray)
     } else {
         LazyVerticalGrid(
@@ -38,13 +45,14 @@ fun ContentCartView(
                 .padding(0.dp)
                 .background(Color(0xFFf0f0f0))
         ) {
-            items(savedLists.cartList) { item ->
+            items() { item ->
                 CardCart(
-                    cartModel = item
+                    cartModel = item,
+                    onRemoveClick = { viewModel.onRemoveClick(item) },
+                    onDecrementClick = { viewModel.onDecrementClick(item) },
+                    onIncrementClick = { viewModel.onIncrementClick(item) }
                 )
             }
         }
-    }
+    }*/
 }
-
-

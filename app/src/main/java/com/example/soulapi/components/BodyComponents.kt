@@ -16,10 +16,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.FavoriteBorder
@@ -32,6 +36,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
@@ -59,9 +64,7 @@ import java.util.Locale
 fun MainTopBar(title: String, showBackButton: Boolean = false, onClickBackButton: () -> Unit) {
     TopAppBar(
         title = { Text(text = title, color = Color.Black, fontWeight = FontWeight.ExtraBold) },
-        /*colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = Color(0xFF2B2626)
-        )*/
+
         modifier = Modifier.shadow(4.dp),
         navigationIcon = {
             if (showBackButton) {
@@ -87,8 +90,14 @@ fun MainTopBar(title: String, showBackButton: Boolean = false, onClickBackButton
         }
     )
 }
+
 @Composable
-fun CardBurger(burger: ProductsModel, onClick: () -> Unit, isFavorite: Boolean, onFavoriteClick: () -> Unit) {
+fun CardBurger(
+    burger: ProductsModel,
+    onClick: () -> Unit,
+    isFavorite: Boolean,
+    onFavoriteClick: () -> Unit
+) {
 
     val productName = when (Locale.getDefault().language) {
         "es" -> burger.nombre_es
@@ -122,7 +131,7 @@ fun CardBurger(burger: ProductsModel, onClick: () -> Unit, isFavorite: Boolean, 
                         .padding(8.dp)
                 ) {
                     Icon(
-                        imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                        imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Filled.Favorite,
                         contentDescription = if (isFavorite) "Remove from favorites" else "Add to favorites",
                         tint = if (isFavorite) Color.Red else Color.Gray
                     )
@@ -153,8 +162,14 @@ fun CardBurger(burger: ProductsModel, onClick: () -> Unit, isFavorite: Boolean, 
         }
     }
 }
+
 @Composable
-fun CardCart(cartModel: CartModel) {
+fun CardCart(
+    cartModel: CartModel,
+    onRemoveClick: () -> Unit,
+    onDecrementClick: () -> Unit,
+    onIncrementClick: () -> Unit
+) {
 
     val productName = when (Locale.getDefault().language) {
         "es" -> cartModel.product.nombre_es
@@ -166,44 +181,97 @@ fun CardCart(cartModel: CartModel) {
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .padding(10.dp)
+            .fillMaxWidth()
     ) {
         Column(
             modifier = Modifier
                 .background(Color.White)
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxWidth()
         ) {
-            Box(
-                modifier = Modifier.fillMaxWidth()
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                // Place the image at the top
+                // Image
                 MainImage(imageUrl = cartModel.product.image)
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                // Product details
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(horizontal = 8.dp)
+                ) {
+                    Text(
+                        text = productName,
+                        textAlign = TextAlign.Start,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = Utils.formatPrice(cartModel.product.price),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black
+                    )
+                }
+
+                // Remove button
+                IconButton(
+                    onClick = onRemoveClick,
+                    modifier = Modifier.size(24.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = "Remove",
+                        tint = Color.Red
+                    )
+                }
             }
 
-            // Use padding only on the text elements
-            Text(
-                text = productName,
-                textAlign = TextAlign.Center,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.ExtraBold,
-                color = Color.Black,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
+            // Quantity controls
+            Row(
                 modifier = Modifier
-                    .padding(top = 8.dp, bottom = 6.dp, start = 8.dp, end = 8.dp)
-                    .height(60.dp)
-            )
-            Text(
-                text = Utils.formatPrice(cartModel.product.price),
-                fontSize = 20.sp,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black,
-                modifier = Modifier.padding(bottom = 8.dp, start = 8.dp, end = 8.dp)
-            )
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp, vertical = 4.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Decrement button
+                IconButton(onClick = onDecrementClick) {
+                    Icon(
+                        imageVector = Icons.Default.Clear,
+                        contentDescription = "Decrement"
+                    )
+                }
+
+                // Quantity text
+                Text(
+                    text = cartModel.quantity.toString(),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+
+                // Increment button
+                IconButton(onClick = onIncrementClick) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Increment"
+                    )
+                }
+            }
         }
     }
 }
+
 @Composable
 fun MainImage(imageUrl: String) {
     val painter = rememberAsyncImagePainter(
@@ -254,6 +322,7 @@ fun ImageDetail(imageUrl: String) {
         is AsyncImagePainter.State.Loading -> {
 
         }
+
         is AsyncImagePainter.State.Error -> {
             // Mostrar un mensaje de error o una imagen de error
             Text(
@@ -261,6 +330,7 @@ fun ImageDetail(imageUrl: String) {
                 color = Color.Red,
             )
         }
+
         else -> {
             // Estado por defecto cuando la imagen se ha cargado
         }

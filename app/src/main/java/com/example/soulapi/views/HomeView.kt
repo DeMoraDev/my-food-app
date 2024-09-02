@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.soulapi.components.CardBurger
 import com.example.soulapi.components.FoodCategories
-import com.example.soulapi.components.MainScaffold
 import com.example.soulapi.model.ProductsModel
 import com.example.soulapi.viewModel.SoulViewModel
 
@@ -38,19 +37,18 @@ fun HomeView(
         // Coloca FoodCategories en la parte superior
         FoodCategories(navController)
 
-        // Coloca el contenido de ContentDrinksView debajo de FoodCategories
-        ContentDrinksView(viewModel, paddingValues, navController, filteredProductList)
+        // Coloca el contenido de ContentHomeView debajo de FoodCategories
+        ContentHomeView(viewModel, paddingValues, navController, filteredProductList)
     }
 }
 
 @Composable
-fun ContentDrinksView(
+fun ContentHomeView(
     viewModel: SoulViewModel,
     pad: PaddingValues,
     navController: NavController,
     productsFiltered: List<ProductsModel>
 ) {
-    val products by viewModel.products.collectAsState()
     val favorites by viewModel.favProducts.collectAsState()
 
     if (productsFiltered.isEmpty()) {

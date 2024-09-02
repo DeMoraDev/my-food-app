@@ -11,6 +11,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.soulapi.components.MainScaffold
+import com.example.soulapi.viewModel.CartViewModel
 import com.example.soulapi.viewModel.SoulViewModel
 import com.example.soulapi.views.CartView
 import com.example.soulapi.views.DetailView
@@ -24,6 +25,7 @@ fun NavManager(soulViewModel: SoulViewModel) {
     val navController = rememberNavController()
     val products by soulViewModel.products.collectAsState()
     val favorites by soulViewModel.favProducts.collectAsState()
+
 
     NavHost(navController = navController, startDestination = "Login") {
         // Destinos que no usan el Scaffold
@@ -114,7 +116,7 @@ fun NavManager(soulViewModel: SoulViewModel) {
                 navController = navController,
                 showBottomBar = true,
                 content = { paddingValues ->
-                    CartView()
+                    CartView(CartViewModel())
                 }
             )
         }
