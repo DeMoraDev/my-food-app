@@ -48,7 +48,7 @@ class SoulViewModel @Inject constructor(
 
     //Valores para el CartList
 
-    private val _cartList = MutableStateFlow(savedLists.cartList.toList())
+    private val _cartList = MutableStateFlow(savedLists.carlistObversable.value.toList())
     val cartList: StateFlow<List<CartModel>> = _cartList
 
     // Calcula la cantidad total de todos los productos en el carrito
@@ -61,13 +61,19 @@ class SoulViewModel @Inject constructor(
     fun addList(product: ProductsModel) {
         val existingItem = savedLists.cartList.find { it.product.id == product.id }
         if (existingItem != null) {
-            existingItem.quantity.update { it + 1 }
-        } else {
-            savedLists.cartList.add(CartModel(product, MutableStateFlow(1)))
-        }
-        _cartList.value = savedLists.cartList.toList()
-    }
+            // Actualiza la cantidad del producto existente
+            existingItem.quantity.value += 1
 
+            // Fuerza la emisión de un nuevo valor al clonar la lista
+            savedLists.carlistObversable.value = savedLists.cartList.toList()
+        } else {
+            val newItem = CartModel(product, MutableStateFlow(1))
+            savedLists.cartList.add(newItem)
+
+            // Emite un nuevo valor con la lista actualizada
+            savedLists.carlistObversable.value = savedLists.cartList.toList()
+        }
+    }
     var state by mutableStateOf(BurgerState())
         private set
 

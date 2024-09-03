@@ -25,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.soulapi.R
 import com.example.soulapi.model.BottomNavigationItem
+import com.example.soulapi.savedLists
 import com.example.soulapi.viewModel.SoulViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -36,9 +37,8 @@ fun MainBottomBar(
 ) {
 
     val favoriteCount by soulViewModel.favProducts.collectAsState()
-    val favCount = favoriteCount.size
 
-    val totalCartQuantity by soulViewModel.totalCartQuantity.collectAsState()
+    val listCart by savedLists.carlistObversable.collectAsState()
 
     val items = listOf(
         BottomNavigationItem(
@@ -58,7 +58,7 @@ fun MainBottomBar(
             selectedIcon = Icons.Filled.ShoppingCart,
             unselectedIcon = Icons.Outlined.ShoppingCart,
             hasNews = false,
-            badgeCount = if (totalCartQuantity > 0) totalCartQuantity.toString() else ""
+            badgeCount = if (listCart.isNotEmpty()) listCart.count().toString() else ""
         ),
         BottomNavigationItem(
             title = stringResource(id = R.string.SettingsBar),

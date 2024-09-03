@@ -37,10 +37,10 @@ fun DetailView(
     id: Int,
     paddingValues: PaddingValues
 ) {
-    // Recoge el estado actual de los productos
+
     val products by viewModel.products.collectAsState()
 
-    // Buscar el producto usando el ID pasado
+
     val product = products.firstOrNull { it.id == id }
 
     Scaffold(
@@ -69,9 +69,8 @@ fun DetailView(
 fun ContentDetailView(paddingValues: PaddingValues, product: ProductsModel, viewModel: SoulViewModel) {
     LazyColumn(
         modifier = Modifier
-            .padding(paddingValues) // Asegúrate de que este padding no esté limitando el área scrollable
+            .padding(paddingValues)
             .background(Color.White)
-            .padding(20.dp) // Padding interno
     ) {
         // Imágen del producto
         item {

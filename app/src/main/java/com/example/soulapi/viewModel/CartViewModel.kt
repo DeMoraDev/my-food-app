@@ -17,21 +17,24 @@ import kotlinx.coroutines.flow.update
 
 class CartViewModel : ViewModel() {
 
-    private val _cartList = MutableStateFlow(savedLists.cartList.toList())
+    private val _cartList = MutableStateFlow(savedLists.carlistObversable.value.toList())
     val cartList: StateFlow<List<CartModel>> = _cartList
 
     fun onRemoveClick(item: CartModel) {
+        // Agregar el nuevo ítem a la lista mutable
         savedLists.cartList.remove(item)
-        _cartList.value = savedLists.cartList.toList() // Actualizar el StateFlow con la lista actualizada
+        // Actualizar el MutableStateFlow con una nueva lista
+        savedLists.carlistObversable.value = savedLists.cartList.toList()
+        _cartList.value = savedLists.carlistObversable.value.toList()
     }
 
     fun onIncrementClick(item: CartModel) {
-        item.quantity.update { it + 1 } // Actualizar el valor de quantity dentro de StateFlow
+        item.quantity.update { it + 1 }
     }
 
     fun onDecrementClick(item: CartModel) {
-        if (item.quantity.value > 1) {  // Chequea el valor actual de StateFlow
-            item.quantity.update { it - 1 } // Decrementa el valor de quantity
+        if (item.quantity.value > 1) {
+            item.quantity.update { it - 1 }
         } else {
             onRemoveClick(item)
         }
