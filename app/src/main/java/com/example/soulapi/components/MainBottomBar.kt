@@ -38,6 +38,8 @@ fun MainBottomBar(
     val favoriteCount by soulViewModel.favProducts.collectAsState()
     val favCount = favoriteCount.size
 
+    val totalCartQuantity by soulViewModel.totalCartQuantity.collectAsState()
+
     val items = listOf(
         BottomNavigationItem(
             title = stringResource(id = R.string.HomeBar),
@@ -56,7 +58,7 @@ fun MainBottomBar(
             selectedIcon = Icons.Filled.ShoppingCart,
             unselectedIcon = Icons.Outlined.ShoppingCart,
             hasNews = false,
-            badgeCount = if (favCount > 0) favCount.toString() else ""
+            badgeCount = if (totalCartQuantity > 0) totalCartQuantity.toString() else ""
         ),
         BottomNavigationItem(
             title = stringResource(id = R.string.SettingsBar),

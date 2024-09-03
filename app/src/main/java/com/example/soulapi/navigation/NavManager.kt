@@ -1,13 +1,11 @@
 package com.example.soulapi.navigation
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.soulapi.components.MainScaffold
@@ -116,7 +114,7 @@ fun NavManager(soulViewModel: SoulViewModel) {
                 navController = navController,
                 showBottomBar = true,
                 content = { paddingValues ->
-                    CartView(CartViewModel())
+                    CartView(CartViewModel(), paddingValues)  // Asegúrate de pasar el paddingValues
                 }
             )
         }

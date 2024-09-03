@@ -18,12 +18,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.FavoriteBorder
@@ -52,6 +55,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import com.example.soulapi.R
 import com.example.soulapi.model.CartModel
@@ -165,107 +169,119 @@ fun CardBurger(
 
 @Composable
 fun CardCart(
-    cartModel: CartModel,
+    productName: String,
+    productPrice: String,
+    imageUrl: String,
+    quantity: Int,
     onRemoveClick: () -> Unit,
     onDecrementClick: () -> Unit,
     onIncrementClick: () -> Unit
 ) {
-
-    val productName = when (Locale.getDefault().language) {
-        "es" -> cartModel.product.nombre_es
-        "en" -> cartModel.product.nombre_en
-        else -> cartModel.product.nombre_en
-    }
-
     Card(
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .padding(10.dp)
             .fillMaxWidth()
     ) {
-        Column(
+        Row(
             modifier = Modifier
                 .background(Color.White)
                 .fillMaxWidth()
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
+            // Parte 1: Imagen
+            CartImage(
+                imageUrl = imageUrl
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            // Parte 2: Nombre del producto y precio
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                verticalAlignment = Alignment.CenterVertically
+                    .weight(1f)
+                    .padding(horizontal = 8.dp)
             ) {
-                // Image
-                MainImage(imageUrl = cartModel.product.image)
+                Text(
+                    text = productName,
+                    textAlign = TextAlign.Start,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(modifier = Modifier.height(15.dp))
+                Text(
+                    text = productPrice,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+            }
 
-                Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(8.dp))
 
-                // Product details
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 8.dp)
-                ) {
-                    Text(
-                        text = productName,
-                        textAlign = TextAlign.Start,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = Utils.formatPrice(cartModel.product.price),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
-                    )
-                }
+            // Parte 3: Icono de eliminación y botones de cantidad
+            Column(
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.Center
+            ) {
 
-                // Remove button
                 IconButton(
                     onClick = onRemoveClick,
                     modifier = Modifier.size(24.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Close,
+                        imageVector = Icons.Default.Delete,
                         contentDescription = "Remove",
-                        tint = Color.Red
-                    )
-                }
-            }
-
-            // Quantity controls
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp, vertical = 4.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                // Decrement button
-                IconButton(onClick = onDecrementClick) {
-                    Icon(
-                        imageVector = Icons.Default.Clear,
-                        contentDescription = "Decrement"
+                        tint = Color.Gray
                     )
                 }
 
-                // Quantity text
-                Text(
-                    text = cartModel.quantity.toString(),
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
-                )
+                Spacer(modifier = Modifier.width(15.dp))
 
-                // Increment button
-                IconButton(onClick = onIncrementClick) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = "Increment"
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(20.dp)
+                            .background(Color.LightGray, shape = CircleShape)
+                            .padding(2.dp)
+                    ) {
+                        IconButton(onClick = onDecrementClick) {
+                            Icon(
+                                imageVector = Icons.Default.Close,
+                                contentDescription = "Decrement",
+                                tint = Color.Black
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Text(
+                        text = quantity.toString(),
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black
                     )
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Box(
+                        modifier = Modifier
+                            .size(20.dp)
+                            .background(Color.LightGray, shape = CircleShape)
+                            .padding(2.dp)
+                    ) {
+                        IconButton(onClick = onIncrementClick) {
+                            Icon(
+                                imageVector = Icons.Default.Add,
+                                contentDescription = "Increment",
+                                tint = Color.Black
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -300,6 +316,37 @@ fun MainImage(imageUrl: String) {
         modifier = Modifier
             .fillMaxWidth()
             .height(190.dp)
+    )
+}
+
+@Composable
+fun CartImage(imageUrl: String) {
+    val painter = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(imageUrl.replace("localhost", "10.0.2.2")) // Ajuste para localhost
+            .crossfade(true)
+            .build()
+    )
+
+    // Verificar el estado de la carga
+    when (val result = painter.state) {
+        is AsyncImagePainter.State.Loading -> Log.d("ImageLoad", "Loading image")
+        is AsyncImagePainter.State.Error -> Log.e(
+            "ImageLoad",
+            "Error loading image: ${result.result}"
+        )
+
+        is AsyncImagePainter.State.Success -> Log.d("ImageLoad", "Image loaded successfully")
+        else -> {}
+    }
+
+    Image(
+        painter = painter,
+        contentDescription = "Product Image",
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .size(84.dp)
+            .clip(RoundedCornerShape(10.dp))
     )
 }
 

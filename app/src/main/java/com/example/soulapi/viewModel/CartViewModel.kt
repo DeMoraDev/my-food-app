@@ -4,44 +4,36 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.soulapi.model.CartModel
+import com.example.soulapi.model.ProductsModel
+import com.example.soulapi.savedLists
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
 class CartViewModel : ViewModel() {
 
-    // Lista mutable de cart models
-    private val _cartList = MutableStateFlow<List<CartModel>>(emptyList())
-    val cartList: StateFlow<List<CartModel>> get() = _cartList
+    private val _cartList = MutableStateFlow(savedLists.cartList.toList())
+    val cartList: StateFlow<List<CartModel>> = _cartList
 
-    // Agregar un producto al carrito
-    fun addProduct(product: CartModel) {
-        _cartList.value = _cartList.value + product
-    }
-
-    // Eliminar un producto del carrito
     fun onRemoveClick(item: CartModel) {
-        _cartList.value = _cartList.value.filter { it != item }
+        savedLists.cartList.remove(item)
+        _cartList.value = savedLists.cartList.toList() // Actualizar el StateFlow con la lista actualizada
     }
 
-    // Disminuir la cantidad de un producto
-    fun onDecrementClick(item: CartModel) {
-        _cartList.value = _cartList.value.map {
-            if (it == item && it.quantity > 1) {
-                it.copy(quantity = it.quantity - 1)
-            } else it
-        }
-    }
-
-    // Aumentar la cantidad de un producto
     fun onIncrementClick(item: CartModel) {
-        _cartList.value = _cartList.value.map {
-            if (it == item) {
-                it.copy(quantity = it.quantity + 1)
-            } else it
+        item.quantity.update { it + 1 } // Actualizar el valor de quantity dentro de StateFlow
+    }
+
+    fun onDecrementClick(item: CartModel) {
+        if (item.quantity.value > 1) {  // Chequea el valor actual de StateFlow
+            item.quantity.update { it - 1 } // Decrementa el valor de quantity
+        } else {
+            onRemoveClick(item)
         }
     }
 }
-
-

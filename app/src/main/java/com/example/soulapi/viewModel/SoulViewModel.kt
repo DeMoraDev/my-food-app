@@ -17,7 +17,12 @@ import com.example.soulapi.state.BurgerState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -41,10 +46,26 @@ class SoulViewModel @Inject constructor(
     private val _error = MutableStateFlow<String?>(null)
     val error = _error.asStateFlow()
 
+    //Valores para el CartList
 
-    fun addList(get: ProductsModel) {
-        val p = CartModel(get,1)
-        savedLists.cartList.add(p)
+    private val _cartList = MutableStateFlow(savedLists.cartList.toList())
+    val cartList: StateFlow<List<CartModel>> = _cartList
+
+    // Calcula la cantidad total de todos los productos en el carrito
+    val totalCartQuantity: StateFlow<Int> = cartList
+        .map { list ->
+            list.sumOf { it.quantity.value } // Suma de las cantidades de cada producto
+        }
+        .stateIn(viewModelScope, SharingStarted.Lazily, 0)
+
+    fun addList(product: ProductsModel) {
+        val existingItem = savedLists.cartList.find { it.product.id == product.id }
+        if (existingItem != null) {
+            existingItem.quantity.update { it + 1 }
+        } else {
+            savedLists.cartList.add(CartModel(product, MutableStateFlow(1)))
+        }
+        _cartList.value = savedLists.cartList.toList()
     }
 
     var state by mutableStateOf(BurgerState())

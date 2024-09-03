@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
@@ -65,20 +66,33 @@ fun DetailView(
 }
 
 @Composable
-fun ContentDetailView(paddingValues: PaddingValues, product: ProductsModel,  viewModel: SoulViewModel) {
-    Column(
+fun ContentDetailView(paddingValues: PaddingValues, product: ProductsModel, viewModel: SoulViewModel) {
+    LazyColumn(
         modifier = Modifier
-            .padding(paddingValues)
+            .padding(paddingValues) // Asegúrate de que este padding no esté limitando el área scrollable
             .background(Color.White)
-            .padding(20.dp)
+            .padding(20.dp) // Padding interno
     ) {
-        ImageDetail(imageUrl = product.image)
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(text = product.nombre_en, fontWeight = FontWeight.ExtraBold, fontSize = 30.sp)
-        Spacer(modifier = Modifier.height(10.dp))
-        Column(modifier = Modifier.fillMaxSize()) {
+        // Imágen del producto
+        item {
+            ImageDetail(imageUrl = product.image)
+            Spacer(modifier = Modifier.height(10.dp))
+        }
+
+        // Nombre del producto
+        item {
+            Text(text = product.nombre_en, fontWeight = FontWeight.ExtraBold, fontSize = 30.sp)
+            Spacer(modifier = Modifier.height(10.dp))
+        }
+
+        // Precio del producto
+        item {
             Text(text = Utils.formatPrice(product.price), fontSize = 30.sp, color = Color.Black)
             Spacer(modifier = Modifier.height(10.dp))
+        }
+
+        // Ingredientes
+        item {
             Text(
                 text = "Ingredientes:",
                 fontSize = 30.sp,
@@ -89,8 +103,10 @@ fun ContentDetailView(paddingValues: PaddingValues, product: ProductsModel,  vie
                 Text(text = "- $ingredient", color = Color.Black)
             }
             Spacer(modifier = Modifier.height(10.dp))
+        }
 
-            // Mostrar la sección de alérgenos
+        // Alérgenos
+        item {
             Text(
                 text = "Alérgenos:",
                 fontSize = 30.sp,
@@ -98,10 +114,15 @@ fun ContentDetailView(paddingValues: PaddingValues, product: ProductsModel,  vie
                 fontWeight = FontWeight.ExtraBold
             )
             if (product.alergenos_en.isNullOrEmpty()) {
-                Text(text = "- No hay alérgenos disponibles", color = Color.White)
+                Text(text = "- No hay alérgenos disponibles", color = Color.Black) // Cambiado de Color.White a Color.Black para visibilidad
             } else {
                 AllergenIcons(allergens = product.alergenos_en)
             }
+            Spacer(modifier = Modifier.height(10.dp))
+        }
+
+        // Botón de agregar al carrito
+        item {
             Button(
                 onClick = { viewModel.addList(product) },
                 colors = ButtonDefaults.buttonColors(
