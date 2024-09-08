@@ -75,7 +75,7 @@ fun MainBottomBar(
     NavigationBar {
         items.forEachIndexed { index, item ->
             val isSelected = when (currentDestination?.route) {
-                "HomeView" -> index == 0
+                "HomeView/burger" -> index == 0
                 "FavoriteView" -> index == 1
                 "CartView" -> index == 2
                 "SettingsView" -> index == 3
@@ -86,10 +86,8 @@ fun MainBottomBar(
                 selected = isSelected,
                 onClick = {
                     when (index) {
-                        0 -> navController.navigate("HomeView") {
-                            popUpTo(navController.graph.startDestinationId) {
-                                saveState = true
-                            }
+                        0 -> navController.navigate("HomeView/burger") {
+                            popUpTo("HomeView/burger") { inclusive = false }
                             launchSingleTop = true
                             restoreState = true
                         }

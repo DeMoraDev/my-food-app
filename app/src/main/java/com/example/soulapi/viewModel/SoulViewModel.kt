@@ -51,12 +51,6 @@ class SoulViewModel @Inject constructor(
     private val _cartList = MutableStateFlow(savedLists.carlistObversable.value.toList())
     val cartList: StateFlow<List<CartModel>> = _cartList
 
-    // Calcula la cantidad total de todos los productos en el carrito
-    val totalCartQuantity: StateFlow<Int> = cartList
-        .map { list ->
-            list.sumOf { it.quantity.value } // Suma de las cantidades de cada producto
-        }
-        .stateIn(viewModelScope, SharingStarted.Lazily, 0)
 
     fun addList(product: ProductsModel) {
         val existingItem = savedLists.cartList.find { it.product.id == product.id }

@@ -5,7 +5,7 @@
 
     <!-- Login -->
 
-    <string name="welcome_message">Bienvenido a Soul Burger Coffee</string>
+    <string name="welcome_message">Bienvenido a Bon Bun</string>
     <string name="email">Email</string>
     <string name="password">Contraseña</string>
     <string name="forgotten_password">¿Olvidó su contraseña?</string>

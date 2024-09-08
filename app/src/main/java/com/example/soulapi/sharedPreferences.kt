@@ -2,11 +2,15 @@ package com.example.soulapi
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.soulapi.model.CartModel
+import com.example.soulapi.model.ProductsModel
+import kotlinx.coroutines.flow.MutableStateFlow
 
 object SharedPrefsManager {
 
     private const val PREFS_NAME = "MyAppPrefs"
     private const val FAVORITES_KEY = "favorite_products"
+    private const val CART_KEY = "cart_products"
 
     fun saveFavorites(context: Context, favoriteIds: List<Int>) {
         val sharedPreferences: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -26,4 +30,5 @@ object SharedPrefsManager {
             ?.mapNotNull { it.toIntOrNull() } // Convierte cada elemento a entero, ignorando los valores nulos
             ?: emptyList() // Devuelve una lista vacía si `idsString` es nulo
     }
+
 }

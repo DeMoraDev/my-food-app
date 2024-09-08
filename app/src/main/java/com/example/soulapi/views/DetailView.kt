@@ -1,7 +1,7 @@
 package com.example.soulapi.views
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,10 +37,7 @@ fun DetailView(
     id: Int,
     paddingValues: PaddingValues
 ) {
-
     val products by viewModel.products.collectAsState()
-
-
     val product = products.firstOrNull { it.id == id }
 
     Scaffold(
@@ -52,30 +49,38 @@ fun DetailView(
                 navController.popBackStack()
             }
         }
-    ) { paddingValues ->
-        if (product != null) {
-            ContentDetailView(paddingValues, product, viewModel)
-        } else {
-            Text(
-                text = "Producto no encontrado",
-                color = Color.White,
-                modifier = Modifier.padding(16.dp)
-            )
+    ) { innerPaddingValues ->
+        // Usa un Box para aplicar padding alrededor del contenido y asegurar que el LazyColumn tenga suficiente espacio
+        Box(
+            modifier = Modifier
+                .padding(innerPaddingValues)
+                .fillMaxSize()
+        ) {
+            if (product != null) {
+                ContentDetailView(product = product, viewModel = viewModel, paddingValues)
+            } else {
+                Text(
+                    text = "Producto no encontrado",
+                    color = Color.White,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
         }
     }
 }
 
 @Composable
-fun ContentDetailView(paddingValues: PaddingValues, product: ProductsModel, viewModel: SoulViewModel) {
+fun ContentDetailView(product: ProductsModel, viewModel: SoulViewModel, paddingValues: PaddingValues) {
+    // Asegúrate de que el LazyColumn tenga suficiente espacio para el scroll
     LazyColumn(
         modifier = Modifier
+            .fillMaxSize()
             .padding(paddingValues)
-            .background(Color.White)
+            .padding(horizontal = 20.dp)
     ) {
         // Imágen del producto
         item {
             ImageDetail(imageUrl = product.image)
-            Spacer(modifier = Modifier.height(10.dp))
         }
 
         // Nombre del producto
@@ -86,7 +91,13 @@ fun ContentDetailView(paddingValues: PaddingValues, product: ProductsModel, view
 
         // Precio del producto
         item {
-            Text(text = Utils.formatPrice(product.price), fontSize = 30.sp, color = Color.Black)
+            Text(
+                text = Utils.formatPrice(product.price),
+                fontSize = 30.sp,
+                color = Color.Black,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.fillMaxWidth()
+            )
             Spacer(modifier = Modifier.height(10.dp))
         }
 
@@ -113,11 +124,11 @@ fun ContentDetailView(paddingValues: PaddingValues, product: ProductsModel, view
                 fontWeight = FontWeight.ExtraBold
             )
             if (product.alergenos_en.isNullOrEmpty()) {
-                Text(text = "- No hay alérgenos disponibles", color = Color.Black) // Cambiado de Color.White a Color.Black para visibilidad
+                Text(text = "- No hay alérgenos disponibles", color = Color.Black)
             } else {
                 AllergenIcons(allergens = product.alergenos_en)
             }
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(5.dp))
         }
 
         // Botón de agregar al carrito
@@ -129,7 +140,7 @@ fun ContentDetailView(paddingValues: PaddingValues, product: ProductsModel, view
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp)
+                    .padding(vertical = 16.dp) // Padding adicional alrededor del botón
             ) {
                 Text(text = "Add to Cart", fontSize = 20.sp)
             }

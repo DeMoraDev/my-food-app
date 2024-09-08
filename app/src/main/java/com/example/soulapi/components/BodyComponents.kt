@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -42,6 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -100,7 +102,8 @@ fun CardBurger(
     burger: ProductsModel,
     onClick: () -> Unit,
     isFavorite: Boolean,
-    onFavoriteClick: () -> Unit
+    onFavoriteClick: () -> Unit,
+    //onAddToCart: () -> Unit
 ) {
 
     val productName = when (Locale.getDefault().language) {
@@ -155,14 +158,35 @@ fun CardBurger(
                     .padding(top = 8.dp, bottom = 6.dp, start = 8.dp, end = 8.dp)
                     .height(60.dp)
             )
-            Text(
-                text = Utils.formatPrice(burger.price),
-                fontSize = 20.sp,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black,
-                modifier = Modifier.padding(bottom = 8.dp, start = 8.dp, end = 8.dp)
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp, start = 8.dp, end = 8.dp)
+            ) {
+                Text(
+                    text = Utils.formatPrice(burger.price),
+                    fontSize = 20.sp,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+                Box(
+                    modifier = Modifier
+                        .size(24.dp)  // Tamaño del círculo
+                        .background(Color(0xFFFFA500), shape = CircleShape)  // Color naranja claro
+                        .clickable(onClick = {  }),
+                    contentAlignment = Alignment.Center  // Centrar el ícono dentro del círculo
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Add",
+                        tint = Color.White,
+                        modifier = Modifier.size(16.dp)  // Tamaño del ícono
+                    )
+                }
+            }
         }
     }
 }
@@ -242,15 +266,20 @@ fun CardCart(
 
                 Spacer(modifier = Modifier.width(15.dp))
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
+                Box(
+                    modifier = Modifier
+                        .background(
+                            Color.LightGray,
+                            shape = RoundedCornerShape(50)
+                        )  // Forma de píldora
+                        .padding(
+                            horizontal = 8.dp,
+                            vertical = 4.dp
+                        )  // Ajustar el padding según sea necesario
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .size(20.dp)
-                            .background(Color.LightGray, shape = CircleShape)
-                            .padding(2.dp)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
                     ) {
                         IconButton(onClick = onDecrementClick) {
                             Icon(
@@ -259,21 +288,14 @@ fun CardCart(
                                 tint = Color.Black
                             )
                         }
-                    }
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Text(
-                        text = quantity.toString(),
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
-                    )
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Box(
-                        modifier = Modifier
-                            .size(20.dp)
-                            .background(Color.LightGray, shape = CircleShape)
-                            .padding(2.dp)
-                    ) {
+                        Spacer(modifier = Modifier.width(8.dp))  // Espacio entre ícono y texto
+                        Text(
+                            text = quantity.toString(),
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))  // Espacio entre texto y ícono
                         IconButton(onClick = onIncrementClick) {
                             Icon(
                                 imageVector = Icons.Default.Add,
@@ -354,15 +376,21 @@ fun CartImage(imageUrl: String) {
 fun ImageDetail(imageUrl: String) {
     val painter = rememberAsyncImagePainter(model = imageUrl.replace("localhost", "10.0.2.2"))
 
-    Image(
-        painter = painter,
-        contentDescription = null,
-        contentScale = ContentScale.Crop,
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(250.dp) // Ajusta la altura según sea necesario
-            .border(1.dp, Color.Gray) // Añade un borde para la depuración
-    )
+           .height(300.dp)
+            .clip(RoundedCornerShape(10.dp))
+    ) {
+        Image(
+            painter = painter,
+            contentDescription = "Image for detailView",
+            contentScale = ContentScale.Crop, // Recorta la imagen para llenar el contenedor
+            modifier = Modifier
+                .matchParentSize()
+                .offset(y = (-50).dp)
+        )
+    }
 
     // Manejo de errores y estado de carga
     when (painter.state) {
@@ -497,4 +525,9 @@ fun AllergenIcons(allergens: List<String>) {
             )
         }
     }
+}
+
+@Composable
+fun ProductsQuantityBox() {
+
 }

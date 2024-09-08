@@ -35,13 +35,16 @@ fun NavManager(soulViewModel: SoulViewModel) {
         }
 
         // Destinos que usan el Scaffold
-        composable("HomeView") {
+        composable("HomeView/{type}", arguments = listOf(
+            navArgument("type") { defaultValue = "burger" }  // Valor predeterminado si no se especifica
+        )) { backStackEntry ->
+            val type = backStackEntry.arguments?.getString("type") ?: "burger"
             MainScaffold(
                 soulViewModel = soulViewModel,
                 navController = navController,
                 showBottomBar = true,
                 content = { paddingValues ->
-                    HomeView(soulViewModel, navController, products.filter { it.tipo == "burger" }, paddingValues)
+                    HomeView(soulViewModel, navController, products.filter { it.tipo == type }, paddingValues)
                 }
             )
         }

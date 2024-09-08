@@ -70,11 +70,12 @@ fun LoginView(navController: NavController, viewModel: LoginViewModel = hiltView
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.drawable.logolight),
+            painter = painterResource(id = R.drawable.iconlightmode),
             contentDescription = "",
             modifier = Modifier
-                .size(250.dp)
+                .size(200.dp)
         )
+        Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = stringResource(id = R.string.welcome_message),
             fontSize = 29.sp,
@@ -115,7 +116,7 @@ fun LoginView(navController: NavController, viewModel: LoginViewModel = hiltView
                 IconButton(onClick = {
                     passwordVisible = !passwordVisible
                 }) {
-                    Icon(painter = image, contentDescription = null, modifier = Modifier.size(24.dp))
+                    Icon(painter = image, contentDescription = null, modifier = Modifier.size(20.dp))
                 }
             },
             keyboardOptions = KeyboardOptions.Default.copy(
@@ -160,7 +161,7 @@ fun LoginView(navController: NavController, viewModel: LoginViewModel = hiltView
 
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { navController.navigate("HomeView") }) {
+        Button(onClick = { navController.navigate("HomeView/burger") }) {
             Text(text = stringResource(id = R.string.login_as_guest))
         }
 
@@ -171,7 +172,7 @@ fun LoginView(navController: NavController, viewModel: LoginViewModel = hiltView
             is ResultState.Success -> {
                 LaunchedEffect(Unit) {
                     // Navegar a HomeView si el login es exitoso
-                    navController.navigate("HomeView")
+                    navController.navigate("HomeView/burger")
                 }
                 Text(text = "Login successful!", color = Color.Green)
             }
