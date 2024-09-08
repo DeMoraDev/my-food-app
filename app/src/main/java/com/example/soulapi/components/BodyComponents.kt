@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -204,7 +205,7 @@ fun CardCart(
     Card(
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
-            .padding(10.dp)
+            .padding(12.dp)
             .fillMaxWidth()
     ) {
         Row(
@@ -230,16 +231,16 @@ fun CardCart(
                 Text(
                     text = productName,
                     textAlign = TextAlign.Start,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.ExtraBold,
                     color = Color.Black,
-                    maxLines = 1,
+                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
                 Spacer(modifier = Modifier.height(15.dp))
                 Text(
                     text = productPrice,
-                    fontSize = 14.sp,
+                    fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
                 )
@@ -264,18 +265,17 @@ fun CardCart(
                     )
                 }
 
-                Spacer(modifier = Modifier.width(15.dp))
+                Box(modifier = Modifier.height(24.dp)) {
+                    Spacer(modifier = Modifier.width(24.dp))  // Usa Box para asegurar el espacio
+                }
 
                 Box(
                     modifier = Modifier
+                        .size(110.dp,35.dp )
                         .background(
                             Color.LightGray,
                             shape = RoundedCornerShape(50)
-                        )  // Forma de píldora
-                        .padding(
-                            horizontal = 8.dp,
-                            vertical = 4.dp
-                        )  // Ajustar el padding según sea necesario
+                        )
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -283,19 +283,19 @@ fun CardCart(
                     ) {
                         IconButton(onClick = onDecrementClick) {
                             Icon(
-                                imageVector = Icons.Default.Close,
+                                imageVector = Icons.Default.ArrowDropDown,
                                 contentDescription = "Decrement",
                                 tint = Color.Black
                             )
                         }
-                        Spacer(modifier = Modifier.width(8.dp))  // Espacio entre ícono y texto
+                        Spacer(modifier = Modifier.width(2.dp))  // Espacio entre ícono y texto
                         Text(
                             text = quantity.toString(),
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color.Black
                         )
-                        Spacer(modifier = Modifier.width(8.dp))  // Espacio entre texto y ícono
+                        Spacer(modifier = Modifier.width(2.dp))  // Espacio entre texto y ícono
                         IconButton(onClick = onIncrementClick) {
                             Icon(
                                 imageVector = Icons.Default.Add,
@@ -364,10 +364,10 @@ fun CartImage(imageUrl: String) {
 
     Image(
         painter = painter,
-        contentDescription = "Product Image",
+        contentDescription = "Product Image for cart",
         contentScale = ContentScale.Crop,
         modifier = Modifier
-            .size(84.dp)
+            .size(100.dp)
             .clip(RoundedCornerShape(10.dp))
     )
 }
