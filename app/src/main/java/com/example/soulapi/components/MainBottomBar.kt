@@ -87,30 +87,22 @@ fun MainBottomBar(
                 onClick = {
                     when (index) {
                         0 -> navController.navigate("HomeView/burger") {
+                            // Simplificar popUpTo
                             popUpTo("HomeView/burger") { inclusive = false }
                             launchSingleTop = true
-                            restoreState = true
                         }
                         1 -> navController.navigate("FavoriteView") {
-                            popUpTo(navController.graph.startDestinationId) {
-                                saveState = true
-                            }
+                            // Simplificar popUpTo
+                            popUpTo("HomeView/burger") { inclusive = false }
                             launchSingleTop = true
-                            restoreState = true
                         }
                         2 -> navController.navigate("CartView") {
-                            popUpTo(navController.graph.startDestinationId) {
-                                saveState = true
-                            }
+                            popUpTo("HomeView/burger") { inclusive = false }
                             launchSingleTop = true
-                            restoreState = true
                         }
                         3 -> navController.navigate("SettingsView") {
-                            popUpTo(navController.graph.startDestinationId) {
-                                saveState = true
-                            }
+                            popUpTo("HomeView/burger") { inclusive = false }
                             launchSingleTop = true
-                            restoreState = true
                         }
                     }
                 },

@@ -440,7 +440,7 @@ fun FoodCategories(navController: NavController) {
                 },
                 onClick = {
                     when (index) {
-                        0 -> navController.navigate("HomeView")
+                        0 -> navController.navigate("HomeView/burger")
                         1 -> navController.navigate("PizzasView")
                         2 -> navController.navigate("SidesView")
                         3 -> navController.navigate("SaucesView")
