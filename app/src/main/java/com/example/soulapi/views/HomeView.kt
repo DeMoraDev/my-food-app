@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.soulapi.components.CardBurger
 import com.example.soulapi.components.FoodCategories
+import com.example.soulapi.components.PromoCard
 import com.example.soulapi.model.ProductsModel
 import com.example.soulapi.viewModel.SoulViewModel
 
@@ -28,12 +29,22 @@ fun HomeView(
     filteredProductList: List<ProductsModel>,
     paddingValues: PaddingValues
 ) {
+    val promoProduct = filteredProductList.find { it.id == 11 }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)
             .background(Color(0xFFf0f0f0))
     ) {
+        promoProduct?.let {
+            PromoCard(
+                productName = promoProduct.nombre_es,
+                promoText = "Disfruta ahora de la nueva burger ",
+                onOrderNow = {   },
+            )
+        }
+
         // Coloca FoodCategories en la parte superior
         FoodCategories(navController)
 
@@ -70,6 +81,9 @@ fun ContentHomeView(
                     },
                     onFavoriteClick = {
                         viewModel.addFavoriteProduct(item.id)
+                    },
+                    onAddToCart = {
+                        viewModel.addList(item)
                     }
                 )
             }

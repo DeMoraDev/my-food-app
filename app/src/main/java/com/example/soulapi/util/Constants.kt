@@ -3,7 +3,7 @@ package com.example.soulapi.util
 class Constants {
 
     companion object{
-        const val BASE_URL = "http://192.168.1.127:5000"
+        const val BASE_URL = "http://192.168.1.245:5000"
         const val ENDPOINT = "/api/products"
         const val IMAGES_ENDPOINT = "/api/images"
         const val PRODUCTS_ENDPOINT = "/api/productos"
