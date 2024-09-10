@@ -39,9 +39,8 @@ fun HomeView(
     ) {
         promoProduct?.let {
             PromoCard(
-                productName = promoProduct.nombre_es,
-                promoText = "Disfruta ahora de la nueva burger ",
-                onOrderNow = {   },
+                onOrderNow = {  navController.navigate("DetailView/${11}") },
+                burger = promoProduct
             )
         }
 

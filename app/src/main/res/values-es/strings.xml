@@ -33,4 +33,8 @@
     <string name="drinks">Bebidas</string>
     <string name="unknown">Desconocido</string>
 
+    <!-- Promo -->
+    <string name="promoOrderButton">Pídela ahora</string>
+    <string name="promoMessage">Disfruta ahora de nuestra nueva burger</string>
+
 </resources>

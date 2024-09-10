@@ -58,6 +58,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -185,7 +186,7 @@ fun CardBurger(
                     modifier = Modifier
                         .size(24.dp)
                         .background(Color(0xFFFFA500), shape = CircleShape)  // Color naranja claro
-                        .clickable(onClick = { onAddToCart }),
+                        .clickable(onClick = { onAddToCart() }),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -536,15 +537,20 @@ fun AllergenIcons(allergens: List<String>) {
 }
 
 @Composable
-fun PromoCard(productName: String, promoText: String, onOrderNow: () -> Unit) {
-    // Carga la imagen desde los recursos
-    val imageBitmap = ImageBitmap.imageResource(id = R.drawable.promo) // Reemplaza con tu imagen
+fun PromoCard(onOrderNow: () -> Unit, burger: ProductsModel) {
+    val imageBitmap = ImageBitmap.imageResource(id = R.drawable.promo)
 
+    val productName = when (Locale.getDefault().language) {
+        "es" -> burger.nombre_es
+        "en" -> burger.nombre_en
+        else -> burger.nombre_en
+    }
     Card(
         modifier = Modifier
-            .fillMaxWidth() // Ajusta el ancho de la tarjeta
-            .height(170.dp) // Ajusta la altura de la tarjeta
-            .padding(16.dp),
+            .fillMaxWidth()
+            .height(180.dp)
+            .padding(16.dp)
+            .clickable { onOrderNow() },
         shape = RoundedCornerShape(8.dp)
     ) {
         Box(
@@ -554,7 +560,7 @@ fun PromoCard(productName: String, promoText: String, onOrderNow: () -> Unit) {
             Image(
                 bitmap = imageBitmap,
                 contentDescription = null,
-                contentScale = ContentScale.Crop, // Ajusta la imagen para cubrir el Box
+                contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
             Row(
@@ -571,12 +577,9 @@ fun PromoCard(productName: String, promoText: String, onOrderNow: () -> Unit) {
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    Text(stringResource(id = R.string.promoMessage), color = Color.White, fontSize = 17.sp, textAlign = TextAlign.Center)
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(promoText, color = Color.White, fontSize = 20.sp)
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Button(onClick = onOrderNow) {
-                        Text("Order Now")
-                    }
+                    Text(text = productName, color = Color.Yellow, fontSize = 24.sp,textAlign = TextAlign.Center)
                 }
             }
         }

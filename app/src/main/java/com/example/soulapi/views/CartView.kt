@@ -40,7 +40,7 @@ fun CartView(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(paddingValues)  // Aplica el padding aquí
+            .padding(paddingValues)
     ) {
         ContentCartView(viewModel)
     }

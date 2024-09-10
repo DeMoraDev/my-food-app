@@ -3,6 +3,7 @@ package com.example.soulapi.viewModel
 import android.annotation.SuppressLint
 import android.app.Application
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
@@ -98,11 +99,7 @@ class SoulViewModel @Inject constructor(
 
     }
 
-    var selectedItemIndex by mutableStateOf(0)
-
-    fun onNavigationItemSelected(index: Int) {
-        selectedItemIndex = index
-    }
+    private var selectedItemIndex by mutableIntStateOf(0)
 
     fun fetchProducts() {
         viewModelScope.launch {

@@ -32,4 +32,9 @@
     <string name="sauces">Sauces</string>
     <string name="drinks">Drinks</string>
     <string name="unknown">Unknown</string>
+
+    <!-- Promo -->
+    <string name="promoOrderButton">Order now</string>
+    <string name="promoMessage">Enjoy now our new burger</string>
+
 </resources>
