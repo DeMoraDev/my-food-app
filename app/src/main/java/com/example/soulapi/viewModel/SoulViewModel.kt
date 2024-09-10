@@ -98,7 +98,6 @@ class SoulViewModel @Inject constructor(
 
     }
 
-
     var selectedItemIndex by mutableStateOf(0)
 
     fun onNavigationItemSelected(index: Int) {
