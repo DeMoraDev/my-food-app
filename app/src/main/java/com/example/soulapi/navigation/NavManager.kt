@@ -17,6 +17,7 @@ import com.example.soulapi.views.HomeView
 import com.example.soulapi.views.LoginView
 import com.example.soulapi.views.RegisterView
 import com.example.soulapi.views.SettingsView
+import com.example.soulapi.views.SplashScreen
 
 @Composable
 fun NavManager(soulViewModel: SoulViewModel) {
@@ -25,13 +26,17 @@ fun NavManager(soulViewModel: SoulViewModel) {
     val favorites by soulViewModel.favProducts.collectAsState()
 
 
-    NavHost(navController = navController, startDestination = "Login") {
+    NavHost(navController = navController, startDestination = "SplashScreen") {
+
         // Destinos que no usan el Scaffold
         composable("Login") {
             LoginView(navController)
         }
         composable("RegisterView") {
             RegisterView(navController)
+        }
+        composable("SplashScreen") {
+            SplashScreen(navController)
         }
 
         // Destinos que usan el Scaffold
