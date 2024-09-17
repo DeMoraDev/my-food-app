@@ -30,6 +30,7 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.FavoriteBorder
@@ -577,9 +578,19 @@ fun PromoCard(onOrderNow: () -> Unit, burger: ProductsModel) {
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(stringResource(id = R.string.promoMessage), color = Color.White, fontSize = 17.sp, textAlign = TextAlign.Center)
+                    Text(
+                        stringResource(id = R.string.promoMessage),
+                        color = Color.White,
+                        fontSize = 17.sp,
+                        textAlign = TextAlign.Center
+                    )
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = productName, color = Color.Yellow, fontSize = 24.sp,textAlign = TextAlign.Center)
+                    Text(
+                        text = productName,
+                        color = Color.Yellow,
+                        fontSize = 24.sp,
+                        textAlign = TextAlign.Center
+                    )
                 }
             }
         }

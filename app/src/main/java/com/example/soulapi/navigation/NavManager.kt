@@ -132,7 +132,7 @@ fun NavManager(soulViewModel: SoulViewModel) {
                 navController = navController,
                 showBottomBar = true,
                 content = { paddingValues ->
-                    SettingsView(soulViewModel, navController, paddingValues)
+                    SettingsView(navController, paddingValues)
                 }
             )
         }

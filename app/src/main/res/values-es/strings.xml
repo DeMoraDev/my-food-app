@@ -37,4 +37,17 @@
     <string name="promoOrderButton">Pídela ahora</string>
     <string name="promoMessage">Disfruta ahora de nuestra nueva burger</string>
 
+    <!-- Profile -->
+
+    <string name="logOutButton">Cerrar sesión</string>
+
+    <string name="profileItemOrders">Pedidos</string>
+    <string name="profileItemMyDetails">Mis detalles</string>
+    <string name="profileItemAddress">Direcciones</string>
+    <string name="profileItemPayment">Pago</string>
+    <string name="profileItemNotifications">Notificaciones</string>
+
+
+
+
 </resources>
