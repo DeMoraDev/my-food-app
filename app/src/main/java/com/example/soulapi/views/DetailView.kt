@@ -18,6 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,6 +29,7 @@ import com.example.soulapi.components.MainTopBar
 import com.example.soulapi.model.ProductsModel
 import com.example.soulapi.util.Utils
 import com.example.soulapi.viewModel.SoulViewModel
+import com.example.soulapi.R
 
 
 @Composable
@@ -43,14 +45,14 @@ fun DetailView(
     Scaffold(
         topBar = {
             MainTopBar(
-                title = product?.nombre_en ?: "Producto no encontrado",
+                title = product?.nombre_en ?: stringResource(id = R.string.productNotFound),
                 showBackButton = true
             ) {
                 navController.popBackStack()
             }
         }
     ) { innerPaddingValues ->
-        // Usa un Box para aplicar padding alrededor del contenido y asegurar que el LazyColumn tenga suficiente espacio
+
         Box(
             modifier = Modifier
                 .padding(innerPaddingValues)
@@ -71,14 +73,14 @@ fun DetailView(
 
 @Composable
 fun ContentDetailView(product: ProductsModel, viewModel: SoulViewModel, paddingValues: PaddingValues) {
-    // Asegúrate de que el LazyColumn tenga suficiente espacio para el scroll
+    
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)
             .padding(horizontal = 20.dp)
     ) {
-        // Imágen del producto
+        //Imagen del producto
         item {
             ImageDetail(imageUrl = product.image)
         }
@@ -104,7 +106,7 @@ fun ContentDetailView(product: ProductsModel, viewModel: SoulViewModel, paddingV
         // Ingredientes
         item {
             Text(
-                text = "Ingredientes:",
+                text = stringResource(id = R.string.ingredientsText),
                 fontSize = 30.sp,
                 fontWeight = FontWeight.ExtraBold,
                 color = Color.Black
@@ -124,7 +126,7 @@ fun ContentDetailView(product: ProductsModel, viewModel: SoulViewModel, paddingV
                 fontWeight = FontWeight.ExtraBold
             )
             if (product.alergenos_en.isNullOrEmpty()) {
-                Text(text = "- No hay alérgenos disponibles", color = Color.Black)
+                Text(text = stringResource(id = R.string.noAlergens), color = Color.Black)
             } else {
                 AllergenIcons(allergens = product.alergenos_en)
             }
@@ -140,9 +142,9 @@ fun ContentDetailView(product: ProductsModel, viewModel: SoulViewModel, paddingV
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 16.dp) // Padding adicional alrededor del botón
+                    .padding(vertical = 16.dp) 
             ) {
-                Text(text = "Add to Cart", fontSize = 20.sp)
+                Text(text = stringResource(id = R.string.addToCartButtonText), fontSize = 20.sp)
             }
         }
     }

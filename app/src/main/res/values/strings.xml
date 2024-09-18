@@ -27,6 +27,18 @@
     <string name="titleSauces">Sauces</string>
     <string name="titleDrinks">Drinks</string>
 
+    <!-- DetailsView-->
+
+    <string name="noAlergens">No allergens for this product</string>
+    <string name="addToCartButtonText">Add to cart</string>
+    <string name="ingredientsText">Ingredients</string>
+    <string name="productNotFound">Product not available</string>
+
+    <!-- CartView-->
+
+    <string name="emptyCartText">Your cart is currently empty</string>
+    <string name="addProductsText">Add products to your cart and enjoy your meals!</string>
+
     <!-- BottomNavBar-->
 
     <string name="HomeBar">Home</string>

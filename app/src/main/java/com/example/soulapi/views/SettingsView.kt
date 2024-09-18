@@ -45,6 +45,8 @@ fun ContentSettingsView(navController: NavController, paddingValues: PaddingValu
     Spacer(modifier = Modifier.height(32.dp))
 
     LogOutButton {
-        navController.navigate("login")
+        navController.navigate("login") {
+            popUpTo("Login") { inclusive = true }
+        }
     }
 }

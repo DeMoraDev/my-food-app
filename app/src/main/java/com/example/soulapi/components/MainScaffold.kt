@@ -11,7 +11,7 @@ import com.example.soulapi.viewModel.SoulViewModel
 fun MainScaffold(
     soulViewModel: SoulViewModel,
     navController: NavController,
-    showBottomBar: Boolean = true, // Controla la visibilidad del BottomBar
+    showBottomBar: Boolean = true,
     content: @Composable (PaddingValues) -> Unit,
     topBarTitle: String
 ) {
@@ -19,9 +19,7 @@ fun MainScaffold(
         topBar = {
             MainTopBar(
                 title = topBarTitle
-            ) {
-                // Acción del botón en el TopBar
-            }
+            ) {}
         },
         bottomBar = {
             if (showBottomBar) {

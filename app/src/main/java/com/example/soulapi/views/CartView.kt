@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -64,7 +65,7 @@ fun ContentCartView(viewModel: CartViewModel) {
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Tu carrito está vacío",
+                text = stringResource(id = R.string.emptyCartText),
                 fontWeight = FontWeight.ExtraBold,
                 fontSize = 25.sp,
                 color = Color.Black,
@@ -72,7 +73,7 @@ fun ContentCartView(viewModel: CartViewModel) {
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Empieza a comprar y disfruta comiendo",
+                text = stringResource(id = R.string.addProductsText),
                 color = Color.Black,
                 style = MaterialTheme.typography.titleMedium
             )
