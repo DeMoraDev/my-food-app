@@ -2,12 +2,14 @@ package com.example.soulapi.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -32,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -44,47 +47,42 @@ import com.example.soulapi.savedLists
 
 @Composable
 fun ProfileCard(modifier: Modifier = Modifier) {
-    Row(
+    Column(
         modifier = modifier
-            .padding(start = 16.dp, end = 16.dp)
+            .padding(16.dp)
             .fillMaxWidth()
+            .clip(RoundedCornerShape(16.dp))
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        Card(
-            border = BorderStroke(width = 2.dp, color = Color.Black),
-            shape = RoundedCornerShape(40.dp),
-        ) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .size(80.dp)
-                    .clip(CircleShape)
-            ) {
-                Image(
-                    modifier = Modifier.size(60.dp), // Tamaño más pequeño del icono
-                    imageVector = Icons.Default.Person,
-                    contentDescription = "Profile Picture"
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.width(16.dp))
-
-        Column(
+        Box(
+            contentAlignment = Alignment.Center,
             modifier = Modifier
-                .weight(1f)
-                .align(Alignment.CenterVertically),
+                .size(120.dp)
+                .clip(CircleShape)
         ) {
-            Text(
-                text = "Juan García Hernández", //Todo Llamar a el nombre de usuario
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                color = Color.Black
+            Image(
+                modifier = Modifier
+                    .size(120.dp)
+                    .clip(CircleShape)
+                    .align(Alignment.Center),
+                painter = painterResource(id = R.drawable.profilepic),
+                contentDescription = "Profile Picture",
+                contentScale = ContentScale.Crop
             )
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = "María García",  //TODO llamar al nombre del usuario o invitado
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            color = Color.Black
+        )
     }
 }
-
-
 @Composable
 fun LogOutButton(
     modifier: Modifier = Modifier,
@@ -178,7 +176,6 @@ fun ListProfileContent(
 
     LazyColumn(
         modifier = modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(top = 32.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(profileItems) { item ->

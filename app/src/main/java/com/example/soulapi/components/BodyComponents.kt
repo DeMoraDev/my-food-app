@@ -270,37 +270,60 @@ fun CardCart(
 
                 Box(
                     modifier = Modifier
-                        .size(110.dp, 35.dp)
+                        .size(108.dp, 39.dp)
                         .background(
-                            Color.LightGray,
+                            Color(0xFFEDEDED),
                             shape = RoundedCornerShape(50)
                         )
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier.fillMaxSize()
                     ) {
-                        IconButton(onClick = onDecrementClick) {
-                            Icon(
-                                imageVector = Icons.Default.ArrowDropDown,
-                                contentDescription = "Decrement",
-                                tint = Color.Black
-                            )
+                        Box(
+                            modifier = Modifier
+                                .size(30.dp)
+                                .clip(CircleShape)
+                                .background(Color.White)
+                                .padding(vertical = 7.5.dp)
+                        ) {
+                            IconButton(
+                                onClick = onDecrementClick,
+                                modifier = Modifier.fillMaxSize()
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.ArrowDropDown,
+                                    contentDescription = "Decrement",
+                                    tint = Color.Black
+                                )
+                            }
                         }
-                        Spacer(modifier = Modifier.width(2.dp))  // Espacio entre ícono y texto
+                        Spacer(modifier = Modifier.width(12.dp))
                         Text(
                             text = quantity.toString(),
                             fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold,
+                            fontWeight = FontWeight.SemiBold,
                             color = Color.Black
                         )
-                        Spacer(modifier = Modifier.width(2.dp))  // Espacio entre texto y ícono
-                        IconButton(onClick = onIncrementClick) {
-                            Icon(
-                                imageVector = Icons.Default.Add,
-                                contentDescription = "Increment",
-                                tint = Color.Black
-                            )
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Box(
+                            modifier = Modifier
+                                .size(30.dp)
+                                .clip(CircleShape)
+                                .background(Color(0xFFFFA500))
+                                .padding(vertical = 7.5.dp)
+                        ) {
+                            IconButton(
+                                onClick = onIncrementClick,
+                                modifier = Modifier.fillMaxSize()
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Add,
+                                    contentDescription = "Increment",
+                                    tint = Color.Black
+                                )
+                            }
                         }
                     }
                 }
