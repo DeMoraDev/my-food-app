@@ -123,7 +123,7 @@ fun ContentDetailView(
                     .size(40.dp),
                 contentAlignment = Alignment.Center
             ) {
-                IconButton(onClick = { /* Acción para agregar a favoritos */ }) {
+                IconButton(onClick = { /* Acción para agregar a favoritos */ }) { //TODO añadir funcionalidad
                     Icon(
                         Icons.Outlined.FavoriteBorder,
                         contentDescription = "Favorite",

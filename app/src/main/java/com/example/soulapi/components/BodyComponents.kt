@@ -27,7 +27,11 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -331,6 +335,124 @@ fun CardCart(
         }
     }
 }
+
+@Composable
+fun TotalCartCard(
+    total: Double,
+    discount: Double? = null,
+    totalPayment: Double
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(
+                RoundedCornerShape(
+                    topStart = 32.dp,
+                    topEnd = 32.dp
+                )
+            ),
+        shape = RoundedCornerShape(
+            topStart = 32.dp,
+            topEnd = 32.dp
+        ),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(
+                text = "Order Summary",
+                modifier = Modifier.padding(bottom = 18.dp),
+                fontWeight = FontWeight.ExtraBold
+            )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+            ) {
+                Text(
+                    text = "Total",
+                    modifier = Modifier.weight(1f)
+                )
+                Text(
+                    text = "€${"%.2f".format(total)}",
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                )
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+            ) {
+                Text(
+                    text = "Delivery",
+                    modifier = Modifier.weight(1f)
+                )
+                Text(
+                    text = "€2.00",
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                )
+            }
+
+            discount?.let {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                ) {
+                    Text(
+                        text = "Discount",
+                        modifier = Modifier.weight(1f)
+                    )
+                    Text(
+                        text = "-€${"%.2f".format(it)}",
+                        modifier = Modifier.align(Alignment.CenterVertically)
+                    )
+                }
+            }
+
+            Divider(
+                color = Color.Gray,
+                thickness = 1.dp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp)
+            )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+            ) {
+                Text(
+                    text = "Total Payment",
+                    modifier = Modifier.weight(1f),
+                    fontWeight = FontWeight.ExtraBold
+                )
+                Text(
+                    text = "€${"%.2f".format(totalPayment)}",
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                )
+            }
+
+            Button(
+                onClick = { /* TODO: Add checkout functionality */ },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color.White,
+                    containerColor = Color(0xFFFFA500)
+                )
+            ) {
+                Text(text = "Checkout")
+            }
+        }
+    }
+}
+
 
 @Composable
 fun MainImage(imageUrl: String) {

@@ -39,4 +39,13 @@ class CartViewModel : ViewModel() {
             onRemoveClick(item)
         }
     }
+
+    fun getDiscount(): Double {
+        val total = _cartList.value.sumOf { it.product.price * it.quantity.value }
+        return if (total >= 25) {
+            2.0 //Si la compra supera los 25, el descuento será de 2€, envío gratis
+        } else {
+            0.0
+        }
+    }
 }
