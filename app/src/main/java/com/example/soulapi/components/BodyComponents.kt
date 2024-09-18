@@ -403,6 +403,7 @@ fun ImageDetail(imageUrl: String) {
             .fillMaxWidth()
             .height(300.dp)
             .clip(RoundedCornerShape(10.dp))
+            .background(Color.LightGray)
     ) {
         Image(
             painter = painter,

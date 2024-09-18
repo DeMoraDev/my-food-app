@@ -27,17 +27,19 @@
     <string name="titleSauces">Salsas</string>
     <string name="titleDrinks">Bebidas</string>
 
-    <!-- DetailsView-->
+    <!-- CartView-->
 
     <string name="emptyCartText">Tu carrito está vacío</string>
     <string name="addProductsText">Añade productos y disfruta comiendo!</string>
+
+    <!-- DetailsView-->
 
     <string name="noAlergens">No hay alérgenos disponibles</string>
     <string name="addToCartButtonText">Agregar al carrito</string>
     <string name="ingredientsText">Ingredientes</string>
     <string name="productNotFound">Producto no disponible</string>
 
-    <!-- DetailsView-->
+
 
     <!-- BottomNavBar-->
 

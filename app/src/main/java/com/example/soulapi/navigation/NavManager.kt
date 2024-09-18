@@ -45,6 +45,14 @@ fun NavManager(soulViewModel: SoulViewModel) {
             SplashScreen(navController)
         }
 
+        composable("DetailView/{id}", arguments = listOf(
+            navArgument("id") { type = NavType.IntType }
+        )) {
+            val id = it.arguments?.getInt("id") ?: 0
+
+            DetailView(soulViewModel, navController, id)
+        }
+
         // Destinos que usan el Scaffold
         composable("HomeView/{type}", arguments = listOf(
             navArgument("type") { defaultValue = "burger" }
@@ -151,20 +159,7 @@ fun NavManager(soulViewModel: SoulViewModel) {
                 topBarTitle = stringResource(id = R.string.titleFavorites)
             )
         }
-        composable("DetailView/{id}", arguments = listOf(
-            navArgument("id") { type = NavType.IntType }
-        )) {
-            val id = it.arguments?.getInt("id") ?: 0
-            MainScaffold(
-                soulViewModel = soulViewModel,
-                navController = navController,
-                showBottomBar = true,
-                content = { paddingValues ->
-                    DetailView(soulViewModel, navController, id, paddingValues)
-                },
-                topBarTitle = stringResource(id = R.string.titleDetails)
-            )
-        }
+
         composable("CartView") {
             MainScaffold(
                 soulViewModel = soulViewModel,
