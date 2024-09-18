@@ -17,6 +17,16 @@
 
     <!-- Scaffold -->
 
+    <string name="titleHome">Burgers</string>
+    <string name="titleDetails">Details</string>
+    <string name="titleFavorites">Favorites</string>
+    <string name="titleCart">Cart</string>
+    <string name="titleProfile">Profile</string>
+    <string name="titlePizzas">Pizzas</string>
+    <string name="titleSides">Sides</string>
+    <string name="titleSauces">Sauces</string>
+    <string name="titleDrinks">Drinks</string>
+
     <!-- BottomNavBar-->
 
     <string name="HomeBar">Home</string>

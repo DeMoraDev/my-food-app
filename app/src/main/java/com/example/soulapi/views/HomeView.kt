@@ -27,9 +27,9 @@ fun HomeView(
     viewModel: SoulViewModel,
     navController: NavController,
     filteredProductList: List<ProductsModel>,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    promoProduct: ProductsModel?
 ) {
-    val promoProduct = filteredProductList.find { it.id == 11 }
 
     Column(
         modifier = Modifier
@@ -39,7 +39,7 @@ fun HomeView(
     ) {
         promoProduct?.let {
             PromoCard(
-                onOrderNow = {  navController.navigate("DetailView/${11}") },
+                onOrderNow = {  navController.navigate("DetailView/${promoProduct.id}") },
                 burger = promoProduct
             )
         }

@@ -1,5 +1,6 @@
 package com.example.soulapi.views
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -28,21 +30,21 @@ fun SettingsView(
         modifier = modifier
             .fillMaxSize()
             .padding(paddingValues)
+        // .background(Color(0xFFf0f0f0))
     ) {
+        ContentSettingsView(navController, paddingValues)
+    }
+}
 
-        ProfileCard()
+@Composable
+fun ContentSettingsView(navController: NavController, paddingValues: PaddingValues) {
+    ProfileCard()
 
-        ListProfileContent()
+    ListProfileContent()
 
-        Spacer(modifier = Modifier.height(32.dp))
+    Spacer(modifier = Modifier.height(32.dp))
 
-        LogOutButton {
-            navController.navigate("login")
-        }
-
-        @Composable
-        fun ContentSettingsView(viewModel: SettingsViewModel, paddingValues: PaddingValues) {
-            Text(text = "SettingsView")
-        }
+    LogOutButton {
+        navController.navigate("login")
     }
 }

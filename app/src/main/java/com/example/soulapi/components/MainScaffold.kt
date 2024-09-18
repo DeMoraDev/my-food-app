@@ -12,11 +12,14 @@ fun MainScaffold(
     soulViewModel: SoulViewModel,
     navController: NavController,
     showBottomBar: Boolean = true, // Controla la visibilidad del BottomBar
-    content: @Composable (PaddingValues) -> Unit
+    content: @Composable (PaddingValues) -> Unit,
+    topBarTitle: String
 ) {
     Scaffold(
         topBar = {
-            MainTopBar(title = "SOUL COFFEE BEER") {
+            MainTopBar(
+                title = topBarTitle
+            ) {
                 // Acción del botón en el TopBar
             }
         },
