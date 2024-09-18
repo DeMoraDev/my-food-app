@@ -355,7 +355,8 @@ fun TotalCartCard(
             topStart = 32.dp,
             topEnd = 32.dp
         ),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
