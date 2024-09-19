@@ -52,6 +52,10 @@ fun CartView(
 @Composable
 fun ContentCartView(viewModel: CartViewModel) {
     val cartItems by viewModel.cartList.collectAsState()
+    val total by viewModel.total.collectAsState()
+    val delivery by viewModel.delivery.collectAsState()
+    val discount by viewModel.discount.collectAsState()
+    val totalPayment by viewModel.totalPayment.collectAsState()
 
     if (cartItems.isEmpty()) {
         Column(
@@ -80,11 +84,6 @@ fun ContentCartView(viewModel: CartViewModel) {
             )
         }
     } else {
-        val total = cartItems.sumOf { it.product.price * it.quantity.value }
-        val delivery = 2.00
-        val discount = viewModel.getDiscount()
-        val totalPayment = total + delivery - discount
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -101,9 +100,8 @@ fun ContentCartView(viewModel: CartViewModel) {
                         imageUrl = item.product.image,
                         quantity = quantity,
                         onRemoveClick = { viewModel.onRemoveClick(item) },
-                        onDecrementClick = { viewModel.onDecrementClick(item) },
-                        onIncrementClick = { viewModel.onIncrementClick(item) }
-                    )
+                        onDecrementClick = { viewModel.onDecrementClick(item) }
+                    ) { viewModel.onIncrementClick(item) }
                 }
             }
             TotalCartCard(

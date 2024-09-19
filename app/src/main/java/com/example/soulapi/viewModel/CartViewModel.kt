@@ -20,16 +20,30 @@ class CartViewModel : ViewModel() {
     private val _cartList = MutableStateFlow(savedLists.carlistObversable.value.toList())
     val cartList: StateFlow<List<CartModel>> = _cartList
 
+    private val _total = MutableStateFlow(0.0)
+    val total: StateFlow<Double> = _total
+
+    private val _delivery = MutableStateFlow(2.0)
+    val delivery: StateFlow<Double> = _delivery
+
+    private val _discount = MutableStateFlow(0.0)
+    val discount: StateFlow<Double> = _discount
+
+    private val _totalPayment = MutableStateFlow(0.0)
+    val totalPayment: StateFlow<Double> = _totalPayment
+
+    init {
+        calculateTotals()
+    }
+
     fun onRemoveClick(item: CartModel) {
-        // Agregar el nuevo ítem a la lista mutable
         savedLists.cartList.remove(item)
-        // Actualizar el MutableStateFlow con una nueva lista
-        savedLists.carlistObversable.value = savedLists.cartList.toList()
-        _cartList.value = savedLists.carlistObversable.value.toList()
+        updateCartList()
     }
 
     fun onIncrementClick(item: CartModel) {
         item.quantity.update { it + 1 }
+        calculateTotals()
     }
 
     fun onDecrementClick(item: CartModel) {
@@ -38,14 +52,19 @@ class CartViewModel : ViewModel() {
         } else {
             onRemoveClick(item)
         }
+        calculateTotals()
     }
 
-    fun getDiscount(): Double {
-        val total = _cartList.value.sumOf { it.product.price * it.quantity.value }
-        return if (total >= 25) {
-            2.0 //Si la compra supera los 25, el descuento será de 2€, envío gratis
-        } else {
-            0.0
-        }
+    private fun updateCartList() {
+        savedLists.carlistObversable.value = savedLists.cartList.toList()
+        _cartList.value = savedLists.carlistObversable.value.toList()
+        calculateTotals()
+    }
+
+    private fun calculateTotals() {
+        val newTotal = _cartList.value.sumOf { it.product.price * it.quantity.value }
+        _total.value = newTotal
+        _discount.value = if (newTotal >= 25) 2.0 else 0.0
+        _totalPayment.value = newTotal + _delivery.value - _discount.value
     }
 }

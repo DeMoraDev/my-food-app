@@ -26,8 +26,7 @@ fun MainScaffold(
             if (showBottomBar) {
                 MainBottomBar(
                     navController = navController,
-                    soulViewModel = soulViewModel,
-                    cartViewModel = CartViewModel()
+                    soulViewModel = soulViewModel
                 )
             }
         }

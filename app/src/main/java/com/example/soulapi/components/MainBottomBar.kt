@@ -28,7 +28,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.soulapi.R
 import com.example.soulapi.model.BottomNavigationItem
 import com.example.soulapi.savedLists
-import com.example.soulapi.viewModel.CartViewModel
 import com.example.soulapi.viewModel.SoulViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -36,12 +35,12 @@ import com.example.soulapi.viewModel.SoulViewModel
 @Composable
 fun MainBottomBar(
     navController: NavController,
-    soulViewModel: SoulViewModel,
-    cartViewModel: CartViewModel
+    soulViewModel: SoulViewModel
 ) {
 
     val favoriteCount by soulViewModel.favProducts.collectAsState()
-    val totalItemCount by cartViewModel.totalItemCount.collectAsState()
+
+    val listCart by savedLists.carlistObversable.collectAsState()
 
     val items = listOf(
         BottomNavigationItem(
@@ -61,7 +60,7 @@ fun MainBottomBar(
             selectedIcon = Icons.Filled.ShoppingCart,
             unselectedIcon = Icons.Outlined.ShoppingCart,
             hasNews = false,
-            badgeCount = if (totalItemCount > 0) totalItemCount.toString() else ""
+            badgeCount = if (listCart.isNotEmpty()) listCart.count().toString() else ""
         ),
         BottomNavigationItem(
             title = stringResource(id = R.string.SettingsBar),
@@ -71,6 +70,7 @@ fun MainBottomBar(
         ),
     )
 
+    // Observar el destino actual de la navegación
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
@@ -89,10 +89,12 @@ fun MainBottomBar(
                 onClick = {
                     when (index) {
                         0 -> navController.navigate("HomeView/burger") {
+                            // Simplificar popUpTo
                             popUpTo("HomeView/burger") { inclusive = false }
                             launchSingleTop = true
                         }
                         1 -> navController.navigate("FavoriteView") {
+                            // Simplificar popUpTo
                             popUpTo("HomeView/burger") { inclusive = false }
                             launchSingleTop = true
                         }

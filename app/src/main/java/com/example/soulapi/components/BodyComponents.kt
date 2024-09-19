@@ -198,7 +198,7 @@ fun CardBurger(
 @Composable
 fun CardCart(
     productName: String,
-    productPrice: Double,
+    productPrice: String,
     imageUrl: String,
     quantity: Int,
     onRemoveClick: () -> Unit,
@@ -242,7 +242,7 @@ fun CardCart(
                 )
                 Spacer(modifier = Modifier.height(15.dp))
                 Text(
-                    text = productPrice.toString(),
+                    text = productPrice,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
@@ -355,7 +355,8 @@ fun TotalCartCard(
             topStart = 32.dp,
             topEnd = 32.dp
         ),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
