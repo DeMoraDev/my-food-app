@@ -20,29 +20,16 @@ class CartViewModel : ViewModel() {
     private val _cartList = MutableStateFlow(savedLists.carlistObversable.value.toList())
     val cartList: StateFlow<List<CartModel>> = _cartList
 
-    private val _totalItemCount = MutableStateFlow(0)
-    val totalItemCount: StateFlow<Int> = _totalItemCount
-
-    private val _totalPrice = MutableStateFlow(0.0)
-    val totalPrice: StateFlow<Double> = _totalPrice
-
-    private val _totalPayment = MutableStateFlow(0.0)
-    val totalPayment: StateFlow<Double> = _totalPayment
-
-    private val deliveryFee = 2.00
-
-    init {
-        updateCartValues()
-    }
-
     fun onRemoveClick(item: CartModel) {
+        // Agregar el nuevo ítem a la lista mutable
         savedLists.cartList.remove(item)
-        updateCartList()
+        // Actualizar el MutableStateFlow con una nueva lista
+        savedLists.carlistObversable.value = savedLists.cartList.toList()
+        _cartList.value = savedLists.carlistObversable.value.toList()
     }
 
     fun onIncrementClick(item: CartModel) {
         item.quantity.update { it + 1 }
-        updateCartList()
     }
 
     fun onDecrementClick(item: CartModel) {
@@ -51,29 +38,12 @@ class CartViewModel : ViewModel() {
         } else {
             onRemoveClick(item)
         }
-        updateCartList()
     }
 
-    private fun updateCartList() {
-        savedLists.carlistObversable.value = savedLists.cartList.toList()
-        _cartList.value = savedLists.carlistObversable.value.toList()
-        updateCartValues()
-    }
-
-    private fun updateCartValues() {
-        val newTotalItemCount = _cartList.value.sumOf { it.quantity.value }
-        _totalItemCount.value = newTotalItemCount
-
-        val newTotalPrice = _cartList.value.sumOf { it.product.price * it.quantity.value }
-        _totalPrice.value = newTotalPrice
-
-        val discount = getDiscount(newTotalPrice)
-        _totalPayment.value = newTotalPrice + deliveryFee - discount
-    }
-
-    fun getDiscount(total: Double): Double {
+    fun getDiscount(): Double {
+        val total = _cartList.value.sumOf { it.product.price * it.quantity.value }
         return if (total >= 25) {
-            2.0 // Si la compra supera los 25, el descuento será de 2€, envío gratis
+            2.0 //Si la compra supera los 25, el descuento será de 2€, envío gratis
         } else {
             0.0
         }

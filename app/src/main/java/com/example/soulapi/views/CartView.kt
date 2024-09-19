@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.example.soulapi.R
 import com.example.soulapi.components.CardCart
 import com.example.soulapi.components.TotalCartCard
+import com.example.soulapi.util.Utils
 import com.example.soulapi.viewModel.CartViewModel
 
 
@@ -51,9 +52,6 @@ fun CartView(
 @Composable
 fun ContentCartView(viewModel: CartViewModel) {
     val cartItems by viewModel.cartList.collectAsState()
-    val total by viewModel.totalPrice.collectAsState()
-    val totalPayment by viewModel.totalPayment.collectAsState()
-    val discount = viewModel.getDiscount(total)
 
     if (cartItems.isEmpty()) {
         Column(
@@ -82,6 +80,11 @@ fun ContentCartView(viewModel: CartViewModel) {
             )
         }
     } else {
+        val total = cartItems.sumOf { it.product.price * it.quantity.value }
+        val delivery = 2.00
+        val discount = viewModel.getDiscount()
+        val totalPayment = total + delivery - discount
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -94,18 +97,18 @@ fun ContentCartView(viewModel: CartViewModel) {
                     val quantity by item.quantity.collectAsState()
                     CardCart(
                         productName = item.product.nombre_en,
-                        productPrice = item.product.price,
+                        productPrice = Utils.formatPrice(item.product.price),
                         imageUrl = item.product.image,
                         quantity = quantity,
                         onRemoveClick = { viewModel.onRemoveClick(item) },
-                        onIncrementClick = { viewModel.onIncrementClick(item) },
-                        onDecrementClick = { viewModel.onDecrementClick(item) }
+                        onDecrementClick = { viewModel.onDecrementClick(item) },
+                        onIncrementClick = { viewModel.onIncrementClick(item) }
                     )
                 }
             }
             TotalCartCard(
                 total = total,
-                discount = discount,
+                discount = if (discount > 0) discount else null,
                 totalPayment = totalPayment
             )
         }
