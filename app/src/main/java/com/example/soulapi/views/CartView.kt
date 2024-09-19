@@ -30,7 +30,6 @@ import androidx.compose.ui.unit.sp
 import com.example.soulapi.R
 import com.example.soulapi.components.CardCart
 import com.example.soulapi.components.TotalCartCard
-import com.example.soulapi.util.Utils
 import com.example.soulapi.viewModel.CartViewModel
 
 
@@ -52,10 +51,9 @@ fun CartView(
 @Composable
 fun ContentCartView(viewModel: CartViewModel) {
     val cartItems by viewModel.cartList.collectAsState()
-    val total by viewModel.total.collectAsState()
-    val delivery by viewModel.delivery.collectAsState()
-    val discount by viewModel.discount.collectAsState()
+    val total by viewModel.totalPrice.collectAsState()
     val totalPayment by viewModel.totalPayment.collectAsState()
+    val discount = viewModel.getDiscount(total)
 
     if (cartItems.isEmpty()) {
         Column(
@@ -96,18 +94,18 @@ fun ContentCartView(viewModel: CartViewModel) {
                     val quantity by item.quantity.collectAsState()
                     CardCart(
                         productName = item.product.nombre_en,
-                        productPrice = Utils.formatPrice(item.product.price),
+                        productPrice = item.product.price,
                         imageUrl = item.product.image,
                         quantity = quantity,
                         onRemoveClick = { viewModel.onRemoveClick(item) },
-                        onDecrementClick = { viewModel.onDecrementClick(item) },
-                        onIncrementClick = { viewModel.onIncrementClick(item) }
+                        onIncrementClick = { viewModel.onIncrementClick(item) },
+                        onDecrementClick = { viewModel.onDecrementClick(item) }
                     )
                 }
             }
             TotalCartCard(
                 total = total,
-                discount = if (discount > 0) discount else null,
+                discount = discount,
                 totalPayment = totalPayment
             )
         }

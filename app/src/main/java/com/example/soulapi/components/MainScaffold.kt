@@ -5,6 +5,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.soulapi.viewModel.CartViewModel
 import com.example.soulapi.viewModel.SoulViewModel
 
 @Composable
@@ -25,7 +26,8 @@ fun MainScaffold(
             if (showBottomBar) {
                 MainBottomBar(
                     navController = navController,
-                    soulViewModel = soulViewModel
+                    soulViewModel = soulViewModel,
+                    cartViewModel = CartViewModel()
                 )
             }
         }

@@ -20,20 +20,19 @@ class CartViewModel : ViewModel() {
     private val _cartList = MutableStateFlow(savedLists.carlistObversable.value.toList())
     val cartList: StateFlow<List<CartModel>> = _cartList
 
-    private val _total = MutableStateFlow(0.0)
-    val total: StateFlow<Double> = _total
+    private val _totalItemCount = MutableStateFlow(0)
+    val totalItemCount: StateFlow<Int> = _totalItemCount
 
-    private val _delivery = MutableStateFlow(2.0)
-    val delivery: StateFlow<Double> = _delivery
-
-    private val _discount = MutableStateFlow(0.0)
-    val discount: StateFlow<Double> = _discount
+    private val _totalPrice = MutableStateFlow(0.0)
+    val totalPrice: StateFlow<Double> = _totalPrice
 
     private val _totalPayment = MutableStateFlow(0.0)
     val totalPayment: StateFlow<Double> = _totalPayment
 
+    private val deliveryFee = 2.00
+
     init {
-        calculateTotals()
+        updateCartValues()
     }
 
     fun onRemoveClick(item: CartModel) {
@@ -43,7 +42,7 @@ class CartViewModel : ViewModel() {
 
     fun onIncrementClick(item: CartModel) {
         item.quantity.update { it + 1 }
-        calculateTotals()
+        updateCartList()
     }
 
     fun onDecrementClick(item: CartModel) {
@@ -52,19 +51,31 @@ class CartViewModel : ViewModel() {
         } else {
             onRemoveClick(item)
         }
-        calculateTotals()
+        updateCartList()
     }
 
     private fun updateCartList() {
         savedLists.carlistObversable.value = savedLists.cartList.toList()
         _cartList.value = savedLists.carlistObversable.value.toList()
-        calculateTotals()
+        updateCartValues()
     }
 
-    private fun calculateTotals() {
-        val newTotal = _cartList.value.sumOf { it.product.price * it.quantity.value }
-        _total.value = newTotal
-        _discount.value = if (newTotal >= 25) 2.0 else 0.0
-        _totalPayment.value = newTotal + _delivery.value - _discount.value
+    private fun updateCartValues() {
+        val newTotalItemCount = _cartList.value.sumOf { it.quantity.value }
+        _totalItemCount.value = newTotalItemCount
+
+        val newTotalPrice = _cartList.value.sumOf { it.product.price * it.quantity.value }
+        _totalPrice.value = newTotalPrice
+
+        val discount = getDiscount(newTotalPrice)
+        _totalPayment.value = newTotalPrice + deliveryFee - discount
+    }
+
+    fun getDiscount(total: Double): Double {
+        return if (total >= 25) {
+            2.0 // Si la compra supera los 25, el descuento será de 2€, envío gratis
+        } else {
+            0.0
+        }
     }
 }
