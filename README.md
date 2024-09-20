@@ -59,7 +59,7 @@ FoodieApp is a mobile application developed in Kotlin using Jetpack Compose for 
       </td>
       <td align="center">
         <h3>Favorites</h3>
-        <img src="https://github.com/user-attachments/assets/7cc04d48-e4d7-4af6-80f0-9812e86b7566" width="300" alt="fav">
+        <img src="https://github.com/user-attachments/assets/a9947b44-ab5f-4b27-a6a1-87d3eb55fbaa" width="300" alt="fav">
       </td>
       <td align="center">
         <h3>Profile</h3>
@@ -68,7 +68,6 @@ FoodieApp is a mobile application developed in Kotlin using Jetpack Compose for 
     </tr>
   </table>
 </div>
-
 
 ## License
 For open source projects, say how it is licensed.
