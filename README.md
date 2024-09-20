@@ -1,90 +1,74 @@
-# My Food App
+<h1 align="center">My Food App</h1>
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/10a07355-a399-4742-a18b-248e605e3498" width="400" alt="App food">
+</p>
 
+FoodieApp is a mobile application developed in Kotlin using Jetpack Compose for the user interface. The app allows users to register, log in, and explore various food products. It also has its own backend API developed in Python that handles product information and authentication functions. The app is available in both English and Spanish and follows the MVVMN architecture.
 
-## Getting started
+## Technologies Used
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+### Frontend (Android)
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+- **Language:** ![Kotlin](https://img.shields.io/badge/Kotlin-8b14f9.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+- **UI Framework:** ![Jetpack Compose](https://img.shields.io/badge/Jetpack_Compose-4285F4.svg?style=for-the-badge&logo=jetpack-compose&logoColor=white)
+- **Architecture:** ![MVVMN](https://img.shields.io/badge/MVVM-FFCA28.svg?style=for-the-badge&logo=android&logoColor=white) 
+- **Navigation:** ![NavManager](https://img.shields.io/badge/NavManager-00ACC1.svg?style=for-the-badge&logo=android&logoColor=white)
 
-## Add your files
+### Backend (Server)
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+- **Language:** ![Python](https://img.shields.io/badge/Python-3776AB.svg?style=for-the-badge&logo=python&logoColor=white)
+- **Framework:** ![Flask](https://img.shields.io/badge/Flask-000000.svg?style=for-the-badge&logo=flask&logoColor=white) 
+- **API:** RESTful API for managing users and products
+- **Image Hosting:** Own server
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/vieja1/my-food-app.git
-git branch -M main
-git push -uf origin main
-```
+### Additional Libraries and Tools
 
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab.com/vieja1/my-food-app/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+- ![RetroFit](https://img.shields.io/badge/RetroFit-4DB33D.svg?style=for-the-badge&logo=android&logoColor=white)
+- ![Hilt-Dagger](https://img.shields.io/badge/Hilt_Dagger-007396.svg?style=for-the-badge&logo=dagger&logoColor=white)
+- ![Shared Preferences](https://img.shields.io/badge/Shared_Preferences-F9AB00.svg?style=for-the-badge&logo=android&logoColor=white)
+- ![Scrum](https://img.shields.io/badge/Scrum-00BFFF.svg?style=for-the-badge&logo=scrum&logoColor=white)
 
 ## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+<div align="center">
+  <h3>Registration Screen</h3>
+  <img src="https://github.com/user-attachments/assets/70ccc7f2-98f1-47c7-ae58-78a69de5ee01" width="300" alt="register">
+</div>
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+<div align="center">
+  <h3>Home (Eng-Spa)</h3>
+  <img src="https://github.com/user-attachments/assets/68e9f7af-78d5-428f-92ed-9879f059d420" width="300" alt="english" style="margin: 10px;">
+  <img src="https://github.com/user-attachments/assets/923d5490-514a-4664-a883-f9ec3b3de843" width="300" alt="products" style="margin: 10px;">
+  <img src="https://github.com/user-attachments/assets/1f9d96d1-f584-4b89-9806-41698e2ea1fc" width="300" alt="spanish" style="margin: 10px;">
+</div>
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+<div align="center">
+  <h3>Cart</h3>
+  <img src="https://github.com/user-attachments/assets/96f44540-d71c-459f-98d2-fbd714f51654" width="300" alt="empty" style="margin: 10px;">
+  <img src="https://github.com/user-attachments/assets/991992b2-a06c-480b-9dc0-9687d18274c5" width="300" alt="addToCart" style="margin: 10px;">
+  <img src="https://github.com/user-attachments/assets/d3664783-66fa-44bf-83f4-4f5b91cc5875" width="300" alt="cart" style="margin: 10px;">
+</div>
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <h3>Product Detail</h3>
+        <img src="https://github.com/user-attachments/assets/d391b5a8-daf2-4b3a-b70d-ea02f7edbcf3" width="300" alt="details">
+      </td>
+      <td align="center">
+        <h3>Favorites</h3>
+        <img src="https://github.com/user-attachments/assets/7cc04d48-e4d7-4af6-80f0-9812e86b7566" width="300" alt="fav">
+      </td>
+      <td align="center">
+        <h3>Profile</h3>
+        <img src="https://github.com/user-attachments/assets/d575b36e-ae1d-4ab3-b898-feb39f93ae45" width="300" alt="profile">
+      </td>
+    </tr>
+  </table>
+</div>
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
 
 ## License
 For open source projects, say how it is licensed.
