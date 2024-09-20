@@ -38,16 +38,36 @@ FoodieApp is a mobile application developed in Kotlin using Jetpack Compose for 
 
 <div align="center">
   <h3>Home (Eng-Spa)</h3>
-  <img src="https://github.com/user-attachments/assets/68e9f7af-78d5-428f-92ed-9879f059d420" width="300" alt="english" style="margin: 10px;">
-  <img src="https://github.com/user-attachments/assets/923d5490-514a-4664-a883-f9ec3b3de843" width="300" alt="products" style="margin: 10px;">
-  <img src="https://github.com/user-attachments/assets/1f9d96d1-f584-4b89-9806-41698e2ea1fc" width="300" alt="spanish" style="margin: 10px;">
+  <table>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/68e9f7af-78d5-428f-92ed-9879f059d420" width="300" alt="english" style="margin: 10px;">
+      </td>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/923d5490-514a-4664-a883-f9ec3b3de843" width="300" alt="products" style="margin: 10px;">
+      </td>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/1f9d96d1-f584-4b89-9806-41698e2ea1fc" width="300" alt="spanish" style="margin: 10px;">
+      </td>
+    </tr>
+  </table>
 </div>
 
 <div align="center">
   <h3>Cart</h3>
-  <img src="https://github.com/user-attachments/assets/96f44540-d71c-459f-98d2-fbd714f51654" width="300" alt="empty" style="margin: 10px;">
-  <img src="https://github.com/user-attachments/assets/991992b2-a06c-480b-9dc0-9687d18274c5" width="300" alt="addToCart" style="margin: 10px;">
-  <img src="https://github.com/user-attachments/assets/d3664783-66fa-44bf-83f4-4f5b91cc5875" width="300" alt="cart" style="margin: 10px;">
+  <table>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/96f44540-d71c-459f-98d2-fbd714f51654" width="300" alt="empty" style="margin: 10px;">
+      </td>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/991992b2-a06c-480b-9dc0-9687d18274c5" width="300" alt="addToCart" style="margin: 10px;">
+      </td>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/d3664783-66fa-44bf-83f4-4f5b91cc5875" width="300" alt="cart" style="margin: 10px;">
+      </td>
+    </tr>
+  </table>
 </div>
 
 <div align="center">
@@ -68,6 +88,7 @@ FoodieApp is a mobile application developed in Kotlin using Jetpack Compose for 
     </tr>
   </table>
 </div>
+
 
 ## License
 For open source projects, say how it is licensed.
