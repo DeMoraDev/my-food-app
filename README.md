@@ -4,7 +4,11 @@
   <img src="https://github.com/user-attachments/assets/10a07355-a399-4742-a18b-248e605e3498" width="400" alt="App food">
 </p>
 
-FoodieApp is a mobile application developed in Kotlin using Jetpack Compose for the user interface. The app allows users to register, log in, and explore various food products. It also has its own backend API developed in Python that handles product information and authentication functions. The app is available in both English and Spanish and follows the MVVMN architecture.
+FoodieApp is a mobile application developed in Kotlin using Jetpack Compose for the user interface. The app allows users to register, log in, and explore various food products. It also has its own backend API developed in Python that handles product information and authentication functions. The app is available in both English and Spanish and follows the MVVM architecture.
+
+## Backend Server
+
+FoodieApp has its own backend server developed in Python using Flask. The server uses an SQLite database to manage and store data. It also has its own API that handles all product information and authentication functions, ensuring seamless interaction between the mobile app and the server. The server also supports image handling, allowing users to upload images, which are then saved with unique filenames and can be accessed via specific URL paths.
 
 ## Technologies Used
 
